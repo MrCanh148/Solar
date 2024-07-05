@@ -18,13 +18,12 @@ public class BasicReSpawn : MonoBehaviour
 
     private void Start()
     {
-        ReSpawnAsteroid.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Asteroid));
-        ReSpawnSmallPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.SmallPlanet));
-        ReSpawnLifePlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.LifePlanet));
-        ReSpawnGasGiantPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.GasGiantPlanet));
-        ReSpawnSmallStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.SmallStar));
-        ReSpawnMediumStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.MediumStar));
-        ReSpawnBigStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.BigStar));
+        ReSpawnAsteroid.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Meteoroid));
+        ReSpawnSmallPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Asteroid));
+        ReSpawnLifePlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Planet));
+        ReSpawnGasGiantPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.LifePlanet));
+        ReSpawnSmallStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.GasGiant));
+        ReSpawnMediumStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Star));
         ReSpawnNeutronStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.NeutronStar));
         ReSpawnBlackHole.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.BlackHole));
     }

@@ -5,16 +5,12 @@ public class UpdateStatusCharacter : MonoBehaviour
 {
     public Character owner;
     private int currentMass;
-    [SerializeField] private GameObject Minimap;
-    private SpriteRenderer spriteRenderer;
     private int requiredMass;
     private int currentGenerateType;
 
     private void Start()
     {
         EvolutionCharacter(owner);
-        if (Minimap != null)
-            spriteRenderer = Minimap.GetComponent<SpriteRenderer>();
         requiredMass = SpawnPlanets.instance.GetRequiredMass(owner.characterType);
         currentGenerateType = (int)owner.generalityType;
     }
@@ -32,9 +28,6 @@ public class UpdateStatusCharacter : MonoBehaviour
         {
             typeChanged = false;
 
-            if (character.characterType == CharacterType.Asteroid)
-                character.tf.DOScale(new Vector3(0.05f, 0.05f, 0.05f) + 0.0015f * new Vector3(character.rb.mass, character.rb.mass, character.rb.mass), 0f);
-
             foreach (var c in SpawnPlanets.instance.CharacterInfos)
             {
                 if (character.characterType == c.characterType - 1) // Tăng CharacterType
@@ -43,9 +36,6 @@ public class UpdateStatusCharacter : MonoBehaviour
                     {
                         character.characterType = c.characterType;
                         character.spriteRenderer.sprite = c.sprite;
-
-                        if (Minimap != null)
-                            spriteRenderer.sprite = character.spriteRenderer.sprite;
 
                         character.tf.DOScale(c.scale, 0f);
                         typeChanged = true;
@@ -65,9 +55,6 @@ public class UpdateStatusCharacter : MonoBehaviour
                     {
                         character.characterType = c.characterType;
                         character.spriteRenderer.sprite = c.sprite;
-
-                        if (Minimap != null)
-                            spriteRenderer.sprite = character.spriteRenderer.sprite;
 
                         character.tf.DOScale(c.scale, 0f);
                         typeChanged = true;
@@ -102,19 +89,19 @@ public class UpdateStatusCharacter : MonoBehaviour
 
     public void EvolutionCharacter(Character character)
     {
-        if (character.characterType == CharacterType.Asteroid)
+        if (character.characterType == CharacterType.Asteroid || character.characterType == CharacterType.Meteoroid)
         {
             character.generalityType = GeneralityType.Asteroid;
         }
-        else if (character.characterType == CharacterType.SmallPlanet || character.characterType == CharacterType.LifePlanet || character.characterType == CharacterType.GasGiantPlanet)
+        else if (character.characterType == CharacterType.Planet || character.characterType == CharacterType.LifePlanet || character.characterType == CharacterType.GasGiant)
         {
             character.generalityType = GeneralityType.Planet;
         }
-        else if (character.characterType == CharacterType.SmallStar || character.characterType == CharacterType.MediumStar || character.characterType == CharacterType.NeutronStar || character.characterType == CharacterType.BigStar)
+        else if (character.characterType == CharacterType.Star || character.characterType == CharacterType.NeutronStar)
         {
             character.generalityType = GeneralityType.Star;
         }
-        else if (character.characterType == CharacterType.BlackHole || character.characterType == CharacterType.BigCrunch || character.characterType == CharacterType.BigBang)
+        else if (character.characterType == CharacterType.BlackHole || character.characterType == CharacterType.BigBang)
         {
             character.generalityType = GeneralityType.BlackHole;
         }
@@ -141,8 +128,6 @@ public class UpdateStatusCharacter : MonoBehaviour
             {
                 owner.SoundAndVfxDie();
                 owner.AllWhenDie();
-                if (owner.isPlayer)
-                    Debug.Log(owner.characterType);
                 SpawnPlanets.instance.ActiveCharacter(owner, owner.characterType + 1);
                 owner.isBasicReSpawn = false;
 
@@ -159,8 +144,6 @@ public class UpdateStatusCharacter : MonoBehaviour
             if (!owner.isBasicReSpawn)
             {
                 owner.AllWhenDie();
-                if (owner.isPlayer)
-                    Debug.Log(owner.characterType);
                 owner.rb.mass = SpawnPlanets.instance.GetRequiredMass(owner.characterType) + (SpawnPlanets.instance.GetRequiredMass(owner.characterType + 1) - SpawnPlanets.instance.GetRequiredMass(owner.characterType)) / 2;
                 owner.isBasicReSpawn = false;
             }

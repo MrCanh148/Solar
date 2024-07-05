@@ -80,9 +80,10 @@ public class CaptureZone : MonoBehaviour
 
     private void UpdateCaptureAbility()
     {
-        if (owner.generalityType == GeneralityType.Star)
+        if (owner.generalityType == GeneralityType.Planet)
         {
-            canCaptureZone = owner.NunmberOrbit < owner.MaxOrbit;
+            canCaptureZone = owner.NumberOrbit1 <= SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
+
         }
         else if (owner.generalityType == GeneralityType.BlackHole)
         {
@@ -92,7 +93,6 @@ public class CaptureZone : MonoBehaviour
 
     public void BecomeSatellite(Character character)
     {
-        //character.tf.SetParent(owner.tf);
         character.host = owner;
         SetSatellite(character);
     }
@@ -109,17 +109,17 @@ public class CaptureZone : MonoBehaviour
 
     public float SetRadius(Character character)
     {
-        if (owner.generalityType == GeneralityType.Planet)
-        {
-            limitedRadius = GameManager.instance.status.coefficientRadiusPlanet * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
-        }
-        else if (owner.generalityType == GeneralityType.Star)
-        {
-            limitedRadius = GameManager.instance.status.coefficientRadiusStar * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
-        }
+        //if (owner.generalityType == GeneralityType.Planet)
+        //{
+        //    limitedRadius = GameManager.instance.status.coefficientRadiusPlanet * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
+        //}
+        //else if (owner.generalityType == GeneralityType.Star)
+        //{
+        //    limitedRadius = GameManager.instance.status.coefficientRadiusStar * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
+        //}
 
-        float radius = limitedRadius + owner.satellites.Count * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType) * 2;
-        //float radius = limitedRadius + owner.satellites.Count * (character.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(character.characterType) * GameManager.instance.status.coefficientDistanceCharacter);
+        //float radius = limitedRadius + owner.satellites.Count * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType) * 2;
+        float radius = limitedRadius;
         return radius;
     }
 

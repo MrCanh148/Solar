@@ -17,15 +17,12 @@ public class Player : Character
     private float velocityMoveLeft;
     private float velocityMoveRight;
 
-    [SerializeField] private Camera miniCam;
-    [SerializeField] private Button absorbButton;
     [SerializeField] private Joystick joystick;
 
     protected override void Start()
     {
         base.Start();
         canControl = true;
-        absorbButton.onClick.AddListener(TryAbsorbCharacter);
     }
 
     protected override void OnInit()
@@ -66,8 +63,6 @@ public class Player : Character
                 isMovingRight = true;
             }
             else { isMovingRight = false; }
-
-            miniCam.transform.rotation = Quaternion.identity; // Lock miniCamera
 
             // Nhan SPACE de Observe Orbit
             if (Input.GetKeyDown(KeyCode.Space))
@@ -142,7 +137,6 @@ public class Player : Character
         float velocityHorizontal = velocityMoveUp - velocityMoveDown;
         float velocityVertical = velocityMoveRight - velocityMoveLeft;
         externalVelocity = new Vector2(velocityVertical, velocityHorizontal);
-        miniCam.transform.rotation = Quaternion.identity;
 
         base.FixedUpdate();
     }

@@ -4,18 +4,15 @@ using UnityEngine;
 
 public enum CharacterType
 {
-    Asteroid = 0,
-    SmallPlanet = 1,
-    LifePlanet = 2,
-    GasGiantPlanet = 3,
-    SmallStar = 4,
-    MediumStar = 5,
-    BigStar = 6,
-    NeutronStar = 7,
-    BlackHole = 8,
-    BigCrunch = 9,
-    BigBang = 10,
-
+    Meteoroid = 0,
+    Asteroid = 1,
+    Planet = 2,
+    LifePlanet = 3,
+    GasGiant = 4,
+    Star = 5,
+    NeutronStar = 6,
+    BlackHole = 7,
+    BigBang = 8,
 };
 
 public enum GeneralityType
@@ -32,6 +29,7 @@ public class Character : MonoBehaviour
     public GeneralityType generalityType;
     public Rigidbody2D rb;
     public Transform tf;
+    public CircleCollider2D circleCollider2D;
     public Vector2 velocity;
     public Vector2 externalVelocity;
     public Vector2 mainVelocity;
@@ -40,9 +38,7 @@ public class Character : MonoBehaviour
     public bool canControl;
     public bool isBasicReSpawn;
     public SpriteRenderer spriteRenderer;
-    [SerializeField] GameObject canvar;
     public List<Character> satellites;
-    public CircleCollider2D circleCollider2D;
 
     [Header("========= Orbit =========")]
     public Character host;
@@ -50,9 +46,8 @@ public class Character : MonoBehaviour
     public float spinSpeed; // Tốc độ quay
     public float angle;
     public bool isCapture;
-    public LineRenderer lineRenderer;
-    public int NunmberOrbit;
-    public int MaxOrbit;
+    public int NumberOrbit1;
+    public int NumberOrbit2;
 
     [Header("======= Other =======")]
     public int Kill;
@@ -62,7 +57,6 @@ public class Character : MonoBehaviour
     private float x, y;
     private Vector2 direction, tmp, dirVeloc;
     private Vector3 contactPoint;
-    [SerializeField] private GameObject BlackHold;
 
     protected virtual void Start()
     {
@@ -87,7 +81,6 @@ public class Character : MonoBehaviour
     {
         if (isCapture)
         {
-            lineRenderer.enabled = true;
             x = Mathf.Cos(angle) * radius;
             y = Mathf.Sin(angle) * radius;
 
@@ -95,16 +88,9 @@ public class Character : MonoBehaviour
             tf.position = host.tf.position + new Vector3(x, y, 0f);
             angle += spinSpeed * Time.deltaTime;
         }
-        else
-            lineRenderer.enabled = false;
 
-        if (host != null && tf != null && lineRenderer.enabled == true)
-        {
-            lineRenderer.SetPosition(1, tf.position);
-            lineRenderer.SetPosition(0, host.tf.position);
-
+        if (host != null && tf != null)
             myFamily = host.myFamily;
-        }
 
     }
 
@@ -142,13 +128,10 @@ public class Character : MonoBehaviour
         }
 
 
-        if (characterType == CharacterType.Asteroid)
+        if (generalityType == GeneralityType.Asteroid)
             tf.Rotate(Vector3.forward, 100 * Time.deltaTime);
         else
             tf.rotation = Quaternion.identity;
-
-        if (canvar != null)
-            canvar.transform.rotation = Quaternion.identity;
 
         if (characterType != CharacterType.LifePlanet || !gameObject.activeSelf)
         {
@@ -156,23 +139,7 @@ public class Character : MonoBehaviour
             EvolutionDone = false;
         }
 
-        if (generalityType == GeneralityType.Star)
-        {
-            if (characterType == CharacterType.SmallStar)
-                MaxOrbit = 3;
-            else if (characterType == CharacterType.MediumStar)
-                MaxOrbit = 5;
-            else if (characterType == CharacterType.BigStar)
-                MaxOrbit = 7;
-            else if (characterType == CharacterType.NeutronStar)
-                MaxOrbit = 9;
-        }
-        NunmberOrbit = satellites.Count;
-
-        if (characterType == CharacterType.BlackHole)
-            BlackHold.SetActive(true);
-        else
-            BlackHold.SetActive(false);
+        NumberOrbit1 = satellites.Count;
     }
 
     //=================================== VA CHAM DAN HOI ============================================ 
@@ -286,7 +253,6 @@ public class Character : MonoBehaviour
            {
                SpawnPlanets.instance.DeActiveCharacter(character);
                host.satellites.Remove(character);
-               character.lineRenderer.enabled = false;
                ResetRadiusSatellite(host);
            })
            .Play();

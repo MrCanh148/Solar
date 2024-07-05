@@ -22,14 +22,14 @@ public class GameManager : FastSingleton<GameManager>
     public GameState gameCurrentState;
     public GameMode currentGameMode;
     public float timePlay;
-    [SerializeField] private GameObject UIGameOver;
+    //[SerializeField] private GameObject UIGameOver;
     [SerializeField] private Player player;
 
     public void ChangeGameState(GameState gameState)
     {
         if (gameState == GameState.GameOver)
         {
-            UIGameOver.SetActive(true);
+            //UIGameOver.SetActive(true);
             player.canWASD = false;
             player.ResetVelocity();
             player.spriteRenderer.enabled = false; 
@@ -80,31 +80,27 @@ public class GameManager : FastSingleton<GameManager>
         {
             if (timePlay > 1200)  // <120
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.Asteroid);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.Meteoroid);
             }
             else if (timePlay > 1080)
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.SmallPlanet);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.Asteroid);
             }
             else if (timePlay > 960)
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.LifePlanet);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.Planet);
             }
             else if (timePlay > 840)
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.GasGiantPlanet);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.LifePlanet);
             }
             else if (timePlay > 720)
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.SmallStar);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.GasGiant);
             }
             else if (timePlay > 600)
             {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.MediumStar);
-            }
-            else if (timePlay > 480)
-            {
-                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.BigStar);
+                SpawnPlanets.instance.AdjustSpawnRates(CharacterType.Star);
             }
             else if (timePlay > 360)
             {

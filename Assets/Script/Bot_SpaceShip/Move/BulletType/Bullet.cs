@@ -48,8 +48,8 @@ public class Bullet : MonoBehaviour
                 else
                 {
                     target.rb.mass -= damage;
-                    if (target.rb.mass < 1 || (target.characterType == CharacterType.SmallPlanet && target.rb.mass < 20)
-                                          || (target.characterType == CharacterType.SmallStar && target.rb.mass < 180))
+                    if (target.rb.mass < 1 || (target.characterType == CharacterType.Planet && target.rb.mass < 20)
+                                          || (target.characterType == CharacterType.Star && target.rb.mass < 180))
                     {
                         VfxManager.instance.PlanetDestroyVfx(target.transform.position, target.transform.rotation);
                         if (collision.gameObject.CompareTag(Constant.TAG_Player))

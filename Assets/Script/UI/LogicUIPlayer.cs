@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,30 +7,27 @@ public class LogicUIPlayer : MonoBehaviour
 {
     public static LogicUIPlayer Instance;
 
-    [Header("0:Shield - 1:Exp - 2:Envolution - 3:Planet - 4:Kill")]
-    [SerializeField] private GameObject[] UIinfo;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject Bg;
+    [Header("======== Stage1 =========")]
+    [SerializeField] private Image ImageStage1;
+    [SerializeField] private TextMeshProUGUI NameStage1;
 
-    [SerializeField] private TextMeshProUGUI numberPlanet;
-    [SerializeField] private TextMeshProUGUI numberKill;
-    [SerializeField] private TextMeshProUGUI MassText;
-    [SerializeField] private TextMeshProUGUI NameTxt;
-    [SerializeField] private TextMeshProUGUI EvoluTxt;
+    [Header("======== Stage2 =========")]
+    [SerializeField] private Image ImageStage2;
+    [SerializeField] private TextMeshProUGUI NameStage2;
 
-    [SerializeField] private Slider EvoluSlider;
-    [SerializeField] private Slider EvolutionSlider;
-    [SerializeField] private Slider ShieldPlayer;
-    [SerializeField] private Slider ExpPlayer;
+    [Header("======== Slide Mass ==========")]
+    [SerializeField] private Slider EvolutionSlide;
+    [SerializeField] private TextMeshProUGUI massText;
 
-    [SerializeField] private float MaxExp = 36;
-    [SerializeField] private float TimeEvolutionGO = 5f;
+    [Header("======== Other ==========")]
+    [SerializeField] private TextMeshProUGUI ringText1;
+    [SerializeField] private TextMeshProUGUI ringText2;
 
     private CanvasGroup bgCanvasGroup;
     private Character character;
-    private Shield Shield;
-    private bool isEvolutionInProgress = false;
     private int currentMass;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject Bg;
 
     private void Awake()
     {
@@ -46,87 +42,19 @@ public class LogicUIPlayer : MonoBehaviour
     {
         Instance = this;
         character = player.GetComponent<Character>();
-        Shield = character.GetComponent<Shield>();
-        OffAllUI();
         currentMass = (int)character.rb.mass;
         UpdateInfo();
     }
 
-    private void Update()
+    public void UpdateInfo()
     {
-        character.NunmberOrbit = character.satellites.Count;
-
-        if (character.characterType == CharacterType.Asteroid
-            || character.characterType == CharacterType.GasGiantPlanet
-            || character.characterType == CharacterType.BlackHole
-            || character.characterType == CharacterType.SmallPlanet)
-        {
-            OffAllUI();
-        }
-
-        if (character.characterType == CharacterType.LifePlanet && !isEvolutionInProgress)
-        {
-            OffAllUI();
-            StartCoroutine(EvolveOverTime(TimeEvolutionGO));
-        }
-
-        if (character.characterType != CharacterType.LifePlanet)
-            isEvolutionInProgress = false;
-
-        if (character.generalityType == GeneralityType.Star)
-        {
-            OffAllUI();
-            UIinfo[3].SetActive(true);
-            numberPlanet.text = character.NunmberOrbit.ToString() + " / " + character.MaxOrbit.ToString();
-        }
-        numberKill.text = character.Kill.ToString();
-
-        ExpPlayer.value = character.Kill / MaxExp;
-        ShieldPlayer.value = Shield.ShieldPlanet / Shield.MaxShield;
+        SetState1(SpawnPlanets.instance.GetNamePlanet(character.characterType), SpawnPlanets.instance.GetSpritePlanet(character.characterType));
+        SetMassTxt((int)character.rb.mass);
+        SetState2((character.characterType + 1).ToString(), SpawnPlanets.instance.GetSpritePlanet(character.characterType + 1));
+        SetEvoluSlider((long)character.rb.mass - SpawnPlanets.instance.GetRequiredMass(character.characterType),
+            SpawnPlanets.instance.GetRequiredMass(character.characterType + 1) - SpawnPlanets.instance.GetRequiredMass(character.characterType));
     }
 
-    private IEnumerator EvolveOverTime(float duration)
-    {
-        UIinfo[2].SetActive(true);
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            if (character.characterType != CharacterType.LifePlanet)
-            {
-                ResetEvolutionUI();
-                yield break;
-            }
-
-            elapsedTime += Time.deltaTime;
-            EvolutionSlider.value = Mathf.Clamp01(elapsedTime / duration);
-            yield return null;
-        }
-
-        EvolutionSlider.value = 1f;
-        UIinfo[0].SetActive(true);
-        UIinfo[1].SetActive(true);
-        UIinfo[2].SetActive(false);
-        UIinfo[4].SetActive(true);
-
-        isEvolutionInProgress = true;
-    }
-
-    private void ResetEvolutionUI()
-    {
-        UIinfo[2].SetActive(false);
-        EvolutionSlider.value = 0f;
-        isEvolutionInProgress = false;
-    }
-
-    private void OffAllUI()
-    {
-        foreach (GameObject go in UIinfo)
-        {
-            go.SetActive(false);
-        }
-        EvolutionSlider.value = 0f;
-    }
 
     public void SetMassTxt(int mass)
     {
@@ -140,34 +68,29 @@ public class LogicUIPlayer : MonoBehaviour
         DOTween.To(() => currentMass, x => currentMass = x, mass, duration)
             .OnUpdate(() =>
             {
-                MassText.text = currentMass.ToString();
+                massText.text = currentMass.ToString();
             });
     }
 
-    public void UpdateInfo()
+    public void SetState2(string CharacterType, Sprite image)
     {
-        SetNameTxt(SpawnPlanets.instance.GetNamePlanet(character.characterType));
-        SetMassTxt((int)character.rb.mass);
-        SetEvoluTxt((character.characterType + 1).ToString());
-        SetEvoluSlider((long)character.rb.mass - SpawnPlanets.instance.GetRequiredMass(character.characterType),
-            SpawnPlanets.instance.GetRequiredMass(character.characterType + 1) - SpawnPlanets.instance.GetRequiredMass(character.characterType));
+        ImageStage2.sprite = image;
+        NameStage2.text = CharacterType;
     }
 
-    public void SetEvoluTxt(string CharacterType)
+    public void SetState1(string CharacterType, Sprite image)
     {
-        EvoluTxt.text = "To " + CharacterType;
+        ImageStage1.sprite = image;
+        NameStage1.text = CharacterType;
     }
 
     public void SetEvoluSlider(long currentMass, long massNeedeVolution)
     {
-        EvoluSlider.value = (float)currentMass / massNeedeVolution;
+        EvolutionSlide.value = (float)currentMass / massNeedeVolution;
     }
 
-    public void SetNameTxt(string CharacterType)
-    {
-        NameTxt.text = CharacterType;
-    }
 
+    // animation
     public void BgFadeIn(float time)
     {
         bgCanvasGroup.alpha = 0f;

@@ -81,7 +81,7 @@ public class Missile : MonoBehaviour
                         else
                         {
                             if (target.host != null)
-                                target.host.satellites.Remove(target);
+                                target.host.satellites1.Remove(target);
 
                             if (target.generalityType == GeneralityType.Asteroid)
                                 target.gameObject.SetActive(false);

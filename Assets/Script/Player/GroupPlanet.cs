@@ -21,12 +21,12 @@ public class GroupPlanet : MonoBehaviour
     public void OnInit()
     {
         this.gameObject.GetComponent<GroupPlanet>().enabled = true;
-        masterStar.satellites.Clear();
+        masterStar.satellites1.Clear();
         for (int i = 0; i < characterChilds.Count; i++)
         {
 
             Character c = characterChilds[i];
-            masterStar.satellites.Add(c);
+            masterStar.satellites1.Add(c);
             if (c.characterType != characterTypes[i])
             {
                 c.isBasicReSpawn = true;
@@ -50,7 +50,6 @@ public class GroupPlanet : MonoBehaviour
             c.radius = (c.tf.position - masterStar.tf.position).magnitude;
 
         }
-        masterStar.ResetRadiusSatellite(masterStar);
         masterStar.isBasicReSpawn = true;
         if (masterStar.characterType != masterStarType)
         {

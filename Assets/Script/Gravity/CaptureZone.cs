@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CaptureZone : MonoBehaviour
@@ -8,6 +7,9 @@ public class CaptureZone : MonoBehaviour
     public float limitedRadius = 0.5f;
     private bool canCaptureZone = true;
     private List<Character> charactersInZone = new List<Character>();
+    [SerializeField] private bool IsOrbit2 = false;
+    [SerializeField] private GameObject LineOrbit1;
+    [SerializeField] private GameObject LineOrbit2;
 
     private void Start()
     {
@@ -28,7 +30,7 @@ public class CaptureZone : MonoBehaviour
                     AudioManager.instance.PlaySFX("Orbit");
 
                     BecomeSatellite(character);
-                    owner.satellites.Add(character);
+                    owner.satellites1.Add(character);
                     charactersInZone.Remove(character);
 
                     if (character.generalityType > GeneralityType.Asteroid)
@@ -56,13 +58,26 @@ public class CaptureZone : MonoBehaviour
     private void Update()
     {
         UpdateCaptureAbility();
+
+        if (owner.generalityType == GeneralityType.Asteroid || owner.generalityType == GeneralityType.BlackHole)
+            LineOrbit1.SetActive(false);
+        else
+            LineOrbit1.SetActive(true);
+
+        if (owner.generalityType ==  GeneralityType.Star || owner.characterType == CharacterType.GasGiant)
+            LineOrbit2.SetActive(true);
+        else
+            LineOrbit2.SetActive(false);
     }
 
     private void UpdateCaptureAbility()
     {
         if (owner.generalityType == GeneralityType.Planet)
         {
-            canCaptureZone = owner.NumberOrbit1 < SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
+            if (!IsOrbit2)
+                canCaptureZone = owner.satellites1.Count < SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
+            else
+                canCaptureZone = owner.satellites1.Count < SpawnPlanets.instance.GetMaxOrbit2(owner.characterType);
         }
         else if (owner.generalityType == GeneralityType.BlackHole)
         {
@@ -81,32 +96,21 @@ public class CaptureZone : MonoBehaviour
         float distance = (character.tf.position - owner.tf.position).magnitude;
         character.radius = distance;
         character.isCapture = true;
-        character.spinSpeed = RandomSpinSpeed(1.0f);
+        character.spinSpeed = 1f;
         character.angle = Mathf.Atan2(character.tf.position.y - owner.tf.position.y, character.tf.position.x - owner.tf.position.x);
-    }
-
-    public float SetRadius()
-    {
-        float radius = limitedRadius;
-        return radius;
-    }
-
-    public float RandomSpinSpeed(float n)
-    {
-        return n;
     }
 
     public void ArrangeSatellites()
     {
-        int satelliteCount = owner.satellites.Count;
+        int satelliteCount = owner.satellites1.Count;
         float angleIncrement = 360f / satelliteCount;
 
         for (int i = 0; i < satelliteCount; i++)
         {
-            Character satellite = owner.satellites[i];
+            Character satellite = owner.satellites1[i];
             float angle = i * angleIncrement;
             satellite.angle = angle * Mathf.Deg2Rad;
-            Vector3 offset = new Vector3(Mathf.Cos(satellite.angle), Mathf.Sin(satellite.angle)) * SetRadius();
+            Vector3 offset = new Vector3(Mathf.Cos(satellite.angle), Mathf.Sin(satellite.angle)) * limitedRadius;
             Vector3 newPosition = owner.tf.position + offset;
         }
     }

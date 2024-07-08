@@ -3,29 +3,21 @@ using UnityEngine.UI;
 
 public class BasicReSpawn : MonoBehaviour
 {
-    [SerializeField] private Button ReSpawnAsteroid;
-    [SerializeField] private Button ReSpawnSmallPlanet;
-    [SerializeField] private Button ReSpawnLifePlanet;
-    [SerializeField] private Button ReSpawnGasGiantPlanet;
-    [SerializeField] private Button ReSpawnSmallStar;
-    [SerializeField] private Button ReSpawnMediumStar;
-    [SerializeField] private Button ReSpawnBigStar;
-    [SerializeField] private Button ReSpawnNeutronStar;
-    [SerializeField] private Button ReSpawnBlackHole;
-
+    [Header("0:Meteo / 1:Aster / 2:Planet / 3:Life / 4:Gas / 5:Star / 6:Neu / 7:BlackHole")]
+    [SerializeField] private Button[] bts;
     [SerializeField] private Player player;
-    [SerializeField] private GameObject SettingUI, GamePlayUI;
+    [SerializeField] private GameObject SettingUI;
 
     private void Start()
     {
-        ReSpawnAsteroid.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Meteoroid));
-        ReSpawnSmallPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Asteroid));
-        ReSpawnLifePlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Planet));
-        ReSpawnGasGiantPlanet.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.LifePlanet));
-        ReSpawnSmallStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.GasGiant));
-        ReSpawnMediumStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Star));
-        ReSpawnNeutronStar.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.NeutronStar));
-        ReSpawnBlackHole.onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.BlackHole));
+        bts[0].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Meteoroid));
+        bts[1].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Asteroid));
+        bts[2].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Planet));
+        bts[3].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.LifePlanet));
+        bts[4].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.GasGiant));
+        bts[5].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.Star));
+        bts[6].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.NeutronStar));
+        bts[7].onClick.AddListener(() => BasicReSpawnPlayer(CharacterType.BlackHole));
     }
 
     public void BasicReSpawnPlayer(CharacterType characterType)
@@ -44,7 +36,6 @@ public class BasicReSpawn : MonoBehaviour
             ReSpawnPlayer.Instance.ResPlayer();
         }
         SettingUI.SetActive(false);
-        GamePlayUI.SetActive(true);
         Time.timeScale = 1.0f;
         SpawnPlanets.instance.AdjustSpawnRates(player.characterType);
     }

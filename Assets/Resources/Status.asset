@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87363bd718d290147b36df6427f22181, type: 3}
   m_Name: Status
   m_EditorClassIdentifier: 
-  acceleration: 6.363636
-  deceleration: 0.22222222
-  minimumMergeForce: 5
+  acceleration: 2
+  deceleration: 0.8
+  minimumMergeForce: 2
   coefficientActiveGameObject: 3
   coefficientAttractive: 1
   timeToCapture: 0

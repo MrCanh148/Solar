@@ -23,6 +23,7 @@ public class UIStartGame : MonoBehaviour
     {
         AllUI[0].SetActive(false);
         AllUI[1].SetActive(true);
+        SpawnPlanets.instance.OnInit();
     }
 
     private void DisAbleAllUI()

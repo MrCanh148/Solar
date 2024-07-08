@@ -19,7 +19,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: c3fb3e0342c5fb94a8678d29e1705f94, type: 3}
   characterPrefab: {fileID: 2854190157192923888, guid: 370d346205be33945a8a9a630de76325, type: 3}
   collisionCoefficient: 0
-  scale: {x: 1, y: 1, z: 1}
+  scale: {x: 0.5, y: 0.5, z: 0.5}
   spawnRate: 0
   maxOrbit1: 6
   maxOrbit2: 2

@@ -38,7 +38,8 @@ public class Character : MonoBehaviour
     public bool canControl;
     public bool isBasicReSpawn;
     public SpriteRenderer spriteRenderer;
-    public List<Character> satellites;
+    public List<Character> satellites1;
+    public List<Character> satellites2;
 
     [Header("========= Orbit =========")]
     public Character host;
@@ -46,8 +47,6 @@ public class Character : MonoBehaviour
     public float spinSpeed; // Tốc độ quay
     public float angle;
     public bool isCapture;
-    public int NumberOrbit1;
-    public int NumberOrbit2;
 
     [Header("======= Other =======")]
     public int Kill;
@@ -57,10 +56,11 @@ public class Character : MonoBehaviour
     private float x, y;
     private Vector2 direction, tmp, dirVeloc;
     private Vector3 contactPoint;
+    private int SpeedRotate;
 
     protected virtual void Start()
     {
-
+        SpeedRotate = GenerateRandomValue();
     }
 
     private void OnEnable()
@@ -100,6 +100,7 @@ public class Character : MonoBehaviour
         velocity.y -= velocity.y * GameManager.instance.status.deceleration * Time.fixedDeltaTime;
         velocity = new Vector2(velocity.x, velocity.y);
         mainVelocity = velocity + externalVelocity;
+        tf.Rotate(Vector3.forward, SpeedRotate * Time.deltaTime);
 
         if (this.host == null)
             rb.velocity = mainVelocity;
@@ -127,19 +128,11 @@ public class Character : MonoBehaviour
             velocity = dirVeloc.normalized * spinSpeed;
         }
 
-
-        if (generalityType == GeneralityType.Asteroid)
-            tf.Rotate(Vector3.forward, 100 * Time.deltaTime);
-        else
-            tf.rotation = Quaternion.identity;
-
         if (characterType != CharacterType.LifePlanet || !gameObject.activeSelf)
         {
             Kill = 0;
             EvolutionDone = false;
         }
-
-        NumberOrbit1 = satellites.Count;
     }
 
     //=================================== VA CHAM DAN HOI ============================================ 
@@ -155,34 +148,53 @@ public class Character : MonoBehaviour
     public void HandleCollision2(Character character)
     {
         float gravitational = (mainVelocity - character.mainVelocity).magnitude;
+
+        //========================================================= logic asteroid
         if (generalityType == GeneralityType.Asteroid && character.generalityType == GeneralityType.Asteroid)
         {
-            if (gravitational <= GameManager.instance.status.minimumMergeForce)
+            if (characterType >= character.characterType)
             {
-                Vector2 velocity = (2 * rb.mass * mainVelocity + (character.rb.mass - rb.mass) * character.mainVelocity) / (rb.mass + character.rb.mass);
-                character.velocity = new Vector2(velocity.x, velocity.y);
-                character.ResetExternalVelocity();
-                AudioManager.instance.PlaySFX("Hit");
-                VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
+                if (gravitational <= GameManager.instance.status.minimumMergeForce)
+                {
+                    Vector2 velocity = (2 * rb.mass * mainVelocity + (character.rb.mass - rb.mass) * character.mainVelocity) / (rb.mass + character.rb.mass);
+                    character.velocity = new Vector2(velocity.x, velocity.y);
+                    character.ResetExternalVelocity();
+                    AudioManager.instance.PlaySFX("Hit");
+                    VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
+                }
+                else
+                {
+                    if (this.isPlayer)
+                    {
+                        MergeCharacter(this, character);
+                        Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
+                        velocity = new Vector2(velocityS.x, velocityS.y);
+                    }
+                    else if (this.GetInstanceID() > character.GetInstanceID())
+                    {
+                        MergeCharacter(this, character);
+                        Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
+                        velocity = new Vector2(velocityS.x, velocityS.y);
+                    }
+                }
+                return;
             }
-            else
+            
+            if (characterType < character.characterType)
             {
                 if (this.isPlayer)
+                    ReSpawnPlayer.Instance.ResPlayer();
+                else
                 {
-                    MergeCharacter(this, character);
+                    MergeCharacter(character, this);
                     Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
                     velocity = new Vector2(velocityS.x, velocityS.y);
                 }
-                else if (this.GetInstanceID() > character.GetInstanceID())
-                {
-                    MergeCharacter(this, character);
-                    Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
-                    velocity = new Vector2(velocityS.x, velocityS.y);
-                }
+                return;
             }
-            return;
         }
 
+        //========================================================== logic BlackHole
         if (generalityType == GeneralityType.BlackHole)
         {
             if (character.generalityType == GeneralityType.BlackHole)
@@ -193,7 +205,6 @@ public class Character : MonoBehaviour
                     SpawnPlanets.instance.ActiveCharacter2(character);
                     SpawnPlanets.instance.quantityPlanetActive++;
                 }
-
             }
             else
             {
@@ -207,9 +218,10 @@ public class Character : MonoBehaviour
             return;
         }
 
+        //================================================================== other logic
         if (characterType != character.characterType || characterType == character.characterType)
         {
-            if (characterType == CharacterType.Asteroid)
+            if (generalityType == GeneralityType.Asteroid)
             {
                 character.rb.mass -= (int)rb.mass;
                 SoundAndVfxDie();
@@ -246,14 +258,13 @@ public class Character : MonoBehaviour
 
     public void AbsorbCharacter(Character host, Character character)
     {
-        if (character.satellites.Count <= 0)
+        if (character.satellites1.Count <= 0)
         {
-            DOTween.To(() => character.radius, x => character.radius = x, 2.5f * host.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(host.characterType), 0.3f)
+            DOTween.To(() => character.radius, x => character.radius = x, 2.5f * host.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(host.characterType), .7f)
            .OnComplete(() =>
            {
                SpawnPlanets.instance.DeActiveCharacter(character);
-               host.satellites.Remove(character);
-               ResetRadiusSatellite(host);
+               host.satellites1.Remove(character);
            })
            .Play();
             host.rb.mass += character.rb.mass;
@@ -271,11 +282,11 @@ public class Character : MonoBehaviour
     public Character GetCharacterWithMinimumMass()
     {
         Character character = null;
-        if (satellites.Count > 0)
+        if (satellites1.Count > 0)
         {
-            character = satellites[0];
+            character = satellites1[0];
 
-            foreach (var c in satellites)
+            foreach (var c in satellites1)
             {
                 if (c.rb.mass < character.rb.mass)
                 {
@@ -289,13 +300,13 @@ public class Character : MonoBehaviour
     public Character GetCharacteHaveSatellite()
     {
         Character character = null;
-        if (satellites.Count > 0)
+        if (satellites1.Count > 0)
         {
-            character = satellites[0];
+            character = satellites1[0];
 
-            foreach (var c in satellites)
+            foreach (var c in satellites1)
             {
-                if (c.satellites.Count > character.satellites.Count)
+                if (c.satellites1.Count > character.satellites1.Count)
                 {
                     character = c;
                 }
@@ -319,34 +330,9 @@ public class Character : MonoBehaviour
         return projV1OnOrthogonalV2;
     }
 
-    public void ResetRadiusSatellite(Character owner)
-    {
-        for (int i = 0; i < owner.satellites.Count; i++)
-        {
-            Character character = owner.satellites[i];
-
-            float limitedRadius = 0;
-            if (owner.generalityType == GeneralityType.Planet)
-            {
-                limitedRadius = GameManager.instance.status.coefficientRadiusPlanet * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
-
-            }
-            else if (owner.generalityType == GeneralityType.Star)
-            {
-                limitedRadius = GameManager.instance.status.coefficientRadiusStar * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType);
-
-            }
-            float tmpRadius = limitedRadius + i * owner.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(owner.characterType) * 2;
-            DOTween.To(() => character.radius, x => character.radius = x, tmpRadius, 0.3f)
-                .OnStart(() => character.gameObject.GetComponent<CircleCollider2D>().enabled = false)
-                .OnComplete(() => character.gameObject.GetComponent<CircleCollider2D>().enabled = true);
-
-        }
-    }
-
     public void AllWhenDie()
     {
-        foreach (Character t in satellites)
+        foreach (Character t in satellites1)
         {
             if (t != null)
             {
@@ -358,14 +344,20 @@ public class Character : MonoBehaviour
         }
         if (host != null)
         {
-            host.satellites.Remove(this);
-            host.ResetRadiusSatellite(host);
+            host.satellites1.Remove(this);
             host = null;
             isCapture = false;
 
         }
 
-        satellites.Clear();
+        satellites1.Clear();
+    }
+
+    public int GenerateRandomValue()
+    {
+        int randomValue = Random.Range(100, 201);
+        int sign = Random.Range(0, 2) * 2 - 1;
+        return randomValue * sign;
     }
 
     public void SoundAndVfxDie()

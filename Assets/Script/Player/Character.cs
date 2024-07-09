@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
     private Vector2 direction, tmp, dirVeloc;
     private Vector3 contactPoint;
     private int SpeedRotate;
+    [HideInInspector] public bool canTaptoAbsore = true;
 
     protected virtual void Start()
     {
@@ -260,11 +261,14 @@ public class Character : MonoBehaviour
     {
         if (character.satellites1.Count <= 0)
         {
-            DOTween.To(() => character.radius, x => character.radius = x, 2.5f * host.circleCollider2D.radius * SpawnPlanets.instance.GetScalePlanet(host.characterType), .7f)
+            character.circleCollider2D.enabled = false;
+            character.transform.DOScale(Vector3.zero, 0.7f);
+            DOTween.To(() => character.radius, x => character.radius = x, 0, .7f)
            .OnComplete(() =>
            {
-               SpawnPlanets.instance.DeActiveCharacter(character);
+               SpawnPlanets.instance.ActiveCharacter(character, character.characterType);
                character.AllWhenDie();
+               canTaptoAbsore = true;
            })
            .Play();
             LogicPointAbsore.instance.AddPoint(host, character);

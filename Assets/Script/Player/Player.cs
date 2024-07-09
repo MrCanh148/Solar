@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class Player : Character
 {
@@ -18,6 +16,7 @@ public class Player : Character
     private float velocityMoveRight;
 
     [SerializeField] private Joystick joystick;
+    [SerializeField] private Camera _camera;
 
     protected override void Start()
     {
@@ -63,11 +62,21 @@ public class Player : Character
                 isMovingRight = true;
             }
             else { isMovingRight = false; }
+        }
 
-            // Nhan SPACE de Observe Orbit
-            if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 rayOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.zero);
+
+            foreach (RaycastHit2D hit in hits)
             {
-                TryAbsorbCharacter();
+                Character targetCharacter = hit.collider.gameObject.GetComponent<Character>();
+                if (hit.collider != null && hit.collider.gameObject.CompareTag("Planet") && targetCharacter.myFamily == myFamily)
+                {
+                    TryAbsorbCharacter();
+                    break;
+                }
             }
         }
     }

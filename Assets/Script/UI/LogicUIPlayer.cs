@@ -46,6 +46,12 @@ public class LogicUIPlayer : MonoBehaviour
         UpdateInfo();
     }
 
+    private void Update()
+    {
+        SetTextRing1(character.satellites1.Count, SpawnPlanets.instance.GetMaxOrbit1(character.characterType));
+        SetTextRing2(character.satellites2.Count, SpawnPlanets.instance.GetMaxOrbit2(character.characterType));
+    }
+
     public void UpdateInfo()
     {
         SetState1(SpawnPlanets.instance.GetNamePlanet(character.characterType), SpawnPlanets.instance.GetSpritePlanet(character.characterType));
@@ -89,6 +95,15 @@ public class LogicUIPlayer : MonoBehaviour
         EvolutionSlide.value = (float)currentMass / massNeedeVolution;
     }
 
+    public void SetTextRing1(int intOrbit, int maxOrbit)
+    {
+        ringText1.text = "1st ring " + intOrbit + "/" + maxOrbit;
+    }
+
+    public void SetTextRing2(int intOrbit, int maxOrbit)
+    {
+        ringText2.text = "2nd ring " + intOrbit + "/" + maxOrbit;
+    }
 
     // animation
     public void BgFadeIn(float time)

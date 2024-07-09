@@ -2977,7 +2977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -371.94
+      value: -1326.5
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5976,10 +5976,12 @@ MonoBehaviour:
   EvolutionDone: 0
   myFamily: {fileID: 0}
   isSetup: 0
+  hasClickedMouse: 0
   moveSpeed: 0
   velocityStart: 0
   canWASD: 1
   joystick: {fileID: 467964474}
+  _camera: {fileID: 519420031}
 --- !u!50 &1129987342
 Rigidbody2D:
   serializedVersion: 4
@@ -8187,6 +8189,7 @@ GameObject:
   - component: {fileID: 1692615708}
   - component: {fileID: 1692615710}
   - component: {fileID: 1692615709}
+  - component: {fileID: 1692615711}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8276,10 +8279,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dbacf14bd30a9f246b79c582ade9f7e4, type: 2}
   - {fileID: 11400000, guid: 4540ef74a73252348a0387415f6379c7, type: 2}
   - {fileID: 11400000, guid: bd83a34b2a477e64491c823894400d14, type: 2}
+  - {fileID: 11400000, guid: d95add242b7758747908748c8eb747cf, type: 2}
   asteroidGroupPrefab: {fileID: 2639450448551038666, guid: cd09a91947fdb104d81fccda131d7d3a, type: 3}
   tfCharacterManager: {fileID: 1692615707}
-  FarFromPlayerMin: 3
-  FarFromPlayerMax: 5
+  FarFromPlayerMin: 1
+  FarFromPlayerMax: 2
   destroyDistance: 2.5
   player: {fileID: 1129987341}
   _camera: {fileID: 519420031}
@@ -8288,6 +8292,26 @@ MonoBehaviour:
   groupPlanetsPrefab: []
   groupPlanets: []
   quantityPlanetActive: 0
+--- !u!114 &1692615711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692615705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f81167426a0be45a4495a90aa916b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Meteoroid: 2
+  Asteroid: 4
+  Planet: 12
+  LifePlanet: 36
+  GasGiant: 108
+  Star: 324
+  Neutron: 1000
+  BlackHole: 10000
 --- !u!1 &1706275375
 GameObject:
   m_ObjectHideFlags: 0

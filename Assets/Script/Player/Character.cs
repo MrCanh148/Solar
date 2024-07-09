@@ -246,7 +246,7 @@ public class Character : MonoBehaviour
     public void MergeCharacter(Character c1, Character c2)
     {
         AudioManager.instance.PlaySFX("Eat");
-        c1.rb.mass += c2.rb.mass;
+        LogicPointAbsore.instance.AddPoint(c1, c2);
         c2.AllWhenDie();
         SpawnPlanets.instance.DeActiveCharacter(c2);
     }
@@ -267,7 +267,7 @@ public class Character : MonoBehaviour
                host.satellites1.Remove(character);
            })
            .Play();
-            host.rb.mass += character.rb.mass;
+            LogicPointAbsore.instance.AddPoint(host, character);
         }
         else
         {

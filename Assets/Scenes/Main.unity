@@ -3661,8 +3661,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1129987341}
-  colliderOrbit1: {fileID: 541045632}
   LineOrbit1: {fileID: 1790128455}
+  orbitRadius: 2
   canOrbit: 0
 --- !u!1 &617548559
 GameObject:
@@ -5863,6 +5863,7 @@ GameObject:
   - component: {fileID: 1129987341}
   - component: {fileID: 1129987344}
   - component: {fileID: 1129987345}
+  - component: {fileID: 1129987346}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5976,6 +5977,7 @@ MonoBehaviour:
   EvolutionDone: 0
   myFamily: {fileID: 0}
   isSetup: 0
+  canTaptoAbsore: 1
   moveSpeed: 0
   velocityStart: 0
   canWASD: 1
@@ -6069,6 +6071,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceTele: 20
+--- !u!114 &1129987346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129987337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f42304f5b2fc4a44bf7279fc91f8c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipSpacePrefab:
+  - {fileID: 5627386560112711568, guid: 4b7efda493dcbee4e877de77c9934190, type: 3}
+  - {fileID: 532995707652806629, guid: 6d18e5209973ec446a1d843f6c8355af, type: 3}
+  - {fileID: 5936262919518486452, guid: 4e1e1dcd79968c74bbca59fec372ff79, type: 3}
+  spawnInterval: 5
+  TimeEvolutionGO: 5
 --- !u!1 &1141819634
 GameObject:
   m_ObjectHideFlags: 0
@@ -7955,8 +7975,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1129987341}
-  colliderOrbit2: {fileID: 1640723773}
   LineOrbit2: {fileID: 1126101466}
+  orbitRadius: 10
 --- !u!1 &1664525620
 GameObject:
   m_ObjectHideFlags: 0
@@ -10005,7 +10025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: -139.09998}
+  m_AnchoredPosition: {x: -0.000015258789, y: -139.1}
   m_SizeDelta: {x: 631.7, y: 278.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001367437
@@ -10458,10 +10478,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032668357}
-  - component: {fileID: 2032668359}
   - component: {fileID: 2032668358}
+  - component: {fileID: 2032668359}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10526,9 +10546,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2032668356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 555e7e1c3f46330468ae96120b6ba2d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 817dc112e96bc3c448067a95c1f1ed14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1129987341}
 --- !u!1 &2043292149
 GameObject:
   m_ObjectHideFlags: 0

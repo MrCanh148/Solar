@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 2230792689397599484}
   - component: {fileID: 6958152462610329150}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 6349812298299200557}
   - component: {fileID: 6171743465303908891}
   - component: {fileID: 6844775748198929929}
+  - component: {fileID: 4812627848018881127}
   m_Layer: 0
   m_Name: Star
   m_TagString: Planet
@@ -585,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 0
-  generalityType: 2
+  generalityType: 0
   rb: {fileID: 944496152205965675}
   tf: {fileID: 4894543874885279265}
   circleCollider2D: {fileID: 5836522971000489433}
@@ -608,6 +609,7 @@ MonoBehaviour:
   EvolutionDone: 0
   myFamily: {fileID: 0}
   isSetup: 0
+  canTaptoAbsore: 1
 --- !u!114 &6171743465303908891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,3 +727,21 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4812627848018881127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610952962791638439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f42304f5b2fc4a44bf7279fc91f8c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipSpacePrefab:
+  - {fileID: 5627386560112711568, guid: 4b7efda493dcbee4e877de77c9934190, type: 3}
+  - {fileID: 532995707652806629, guid: 6d18e5209973ec446a1d843f6c8355af, type: 3}
+  - {fileID: 5936262919518486452, guid: 4e1e1dcd79968c74bbca59fec372ff79, type: 3}
+  spawnInterval: 5
+  TimeEvolutionGO: 5

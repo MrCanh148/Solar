@@ -359,6 +359,7 @@ MonoBehaviour:
   EvolutionDone: 0
   myFamily: {fileID: 0}
   isSetup: 0
+  canTaptoAbsore: 1
 --- !u!114 &1851047035439777751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,7 +573,7 @@ GameObject:
   - component: {fileID: 5272794722435558671}
   - component: {fileID: 5672906920093733334}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

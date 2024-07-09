@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
+
 
 public class Orbit1 : MonoBehaviour
 {
@@ -66,8 +68,25 @@ public class Orbit1 : MonoBehaviour
         for (int i = satelliteCount - 1; i >= 0; i--)
         {
             Character satellite = owner.satellites1[i];
-            satellite.angle = angleStart + ((satelliteCount - 1) - i) * angleIncrement;
-        }
+            float newAngle = angleStart + ((satelliteCount - 1) - i) * angleIncrement;
+            satellite.angle = NormalizeAngle(satellite.angle);
+            newAngle = NormalizeAngle(newAngle);
+            //satellite.angle = newAngle;
+            DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, 1f);
 
+        }
+    }
+
+    public float NormalizeAngle(float angle)
+    {
+        while (angle > 6.28f)
+        {
+            angle -= 6.28f;
+        }
+        while (angle < 0)
+        {
+            angle += 6.28f;
+        }
+        return angle;
     }
 }

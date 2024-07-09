@@ -146,6 +146,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.rb.mass = GetRequiredMass(type) + (GetRequiredMass(type + 1) - GetRequiredMass(type)) / 2;
 
         character.isBasicReSpawn = true;
+        character.circleCollider2D.enabled = true;
     }
 
     public void ActiveCharacter2(Character character)

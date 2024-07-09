@@ -8,7 +8,7 @@ public class Orbit1 : MonoBehaviour
     [SerializeField] private CircleCollider2D colliderOrbit1;
     [SerializeField] private GameObject LineOrbit1;
     private float orbitRadius;
-    public bool canOrbit = false;
+    private bool canOrbit = false;
 
     private void Start()
     {

@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
     private Vector2 direction, tmp, dirVeloc;
     private Vector3 contactPoint;
     private int SpeedRotate;
+    [HideInInspector] public bool canTaptoAbsore = true;
 
     protected virtual void Start()
     {
@@ -265,9 +266,11 @@ public class Character : MonoBehaviour
            {
                SpawnPlanets.instance.DeActiveCharacter(character);
                host.satellites1.Remove(character);
+               canTaptoAbsore = true;
            })
            .Play();
             LogicPointAbsore.instance.AddPoint(host, character);
+          
         }
         else
         {

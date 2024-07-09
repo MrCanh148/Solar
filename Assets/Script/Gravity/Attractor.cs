@@ -13,11 +13,19 @@ public class Attractor : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         otherAttractor = Cache.GetCharacterCollider(collision);
+        ShootTarget target = collision.gameObject.GetComponent<ShootTarget>();
 
         if (otherAttractor != null && owner != null)
         {
             Attract(owner, otherAttractor);
         }
+
+        if (collision.gameObject.CompareTag("AirSpace1"))
+        {
+            if (owner.characterType == CharacterType.BlackHole)
+                AttractAirPlant(owner, target);
+        }
+
     }
 
     private void Attract(Character attractor, Character target)
@@ -48,5 +56,21 @@ public class Attractor : MonoBehaviour
                     target.externalVelocity += (Vector2)force;
             }
         }
+    }
+
+    private void AttractAirPlant(Character attractor, ShootTarget airPlanet)
+    {
+        direction = attractor.tf.position - airPlanet.transform.position;
+        distance = direction.magnitude;
+
+        if (distance <= 0.1f)
+        {
+            return;
+        }
+
+        forceMagnitude = (G * 8) / Mathf.Pow(distance, 2);
+        force = direction.normalized * forceMagnitude;
+
+        //airPlanet.velocity += (Vector2)force;
     }
 }

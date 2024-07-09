@@ -179,7 +179,7 @@ public class Character : MonoBehaviour
                 }
                 return;
             }
-            
+
             if (characterType < character.characterType)
             {
                 if (this.isPlayer)
@@ -264,7 +264,7 @@ public class Character : MonoBehaviour
            .OnComplete(() =>
            {
                SpawnPlanets.instance.DeActiveCharacter(character);
-               host.satellites1.Remove(character);
+               character.AllWhenDie();
            })
            .Play();
             LogicPointAbsore.instance.AddPoint(host, character);
@@ -344,7 +344,17 @@ public class Character : MonoBehaviour
         }
         if (host != null)
         {
-            host.satellites1.Remove(this);
+            if (host.satellites1.Contains(this))
+            {
+                host.satellites1.Remove(this);
+                host.ResetAngleSatellites1();
+            }
+            if (host.satellites2.Contains(this))
+            {
+                host.satellites2.Remove(this);
+                host.ResetAngleSatellites2();
+            }
+
             host = null;
             isCapture = false;
 
@@ -358,6 +368,36 @@ public class Character : MonoBehaviour
         int randomValue = Random.Range(100, 201);
         int sign = Random.Range(0, 2) * 2 - 1;
         return randomValue * sign;
+    }
+
+    public void ResetAngleSatellites1()
+    {
+        if (satellites1.Count > 0)
+        {
+            int satelliteCount = satellites1.Count;
+            float angleIncrement = 6.28f / satelliteCount;
+            float angleStart = Mathf.Atan2(satellites1[0].tf.position.y - this.tf.position.y, satellites1[0].tf.position.x - this.tf.position.x);
+            for (int i = 0; i < satelliteCount; i++)
+            {
+                Character satellite = satellites1[i];
+                satellite.angle = angleStart + i * angleIncrement;
+            }
+        }
+    }
+
+    public void ResetAngleSatellites2()
+    {
+        if (satellites2.Count > 0)
+        {
+            int satelliteCount = satellites2.Count;
+            float angleIncrement = 6.28f / satelliteCount;
+            float angleStart = Mathf.Atan2(satellites2[0].tf.position.y - this.tf.position.y, satellites2[0].tf.position.x - this.tf.position.x);
+            for (int i = 0; i < satelliteCount; i++)
+            {
+                Character satellite = satellites2[i];
+                satellite.angle = angleStart + i * angleIncrement;
+            }
+        }
     }
 
     public void SoundAndVfxDie()

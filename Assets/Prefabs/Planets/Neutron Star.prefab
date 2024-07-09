@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5380758043756679390}
   - component: {fileID: 3764568837755711120}
-  - component: {fileID: 8734107562748862700}
+  - component: {fileID: 8289237953014920088}
   m_Layer: 0
   m_Name: Orbit1 (1)
   m_TagString: Untagged
@@ -69,7 +69,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.44
---- !u!114 &8734107562748862700
+--- !u!114 &8289237953014920088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,12 +78,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359868733339045301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10460e2aca920be439461730a9e027cb, type: 3}
+  m_Script: {fileID: 11500000, guid: a443afbacdd95cd468da027917f05590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1472016212646829294}
-  LineOrbit2: {fileID: 2600073060973313331}
-  orbitRadius: 2
+  colliderOrbit1: {fileID: 3764568837755711120}
+  LineOrbit1: {fileID: 2600073060973313331}
+  canOrbit: 0
 --- !u!1 &2388541116809545057
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,8 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1472016212646829294}
+  colliderOrbit2: {fileID: 506682076189826384}
   LineOrbit2: {fileID: 4720304086446997805}
-  orbitRadius: 10
 --- !u!1 &2600073060973313331
 GameObject:
   m_ObjectHideFlags: 0

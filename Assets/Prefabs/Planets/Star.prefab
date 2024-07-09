@@ -82,8 +82,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 6349812298299200557}
+  colliderOrbit2: {fileID: 1099731494101821692}
   LineOrbit2: {fileID: 4188184367320097381}
-  orbitRadius: 10
 --- !u!1 &4188184367320097381
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,8 +415,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 6349812298299200557}
+  colliderOrbit1: {fileID: 7747374491960114003}
   LineOrbit1: {fileID: 4333976971602699452}
-  orbitRadius: 5
   canOrbit: 0
 --- !u!1 &8610952962791638439
 GameObject:

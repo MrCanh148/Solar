@@ -3,13 +3,20 @@
 public class Orbit1 : MonoBehaviour
 {
     [SerializeField] private Character owner;
+    [SerializeField] private CircleCollider2D colliderOrbit1;
     [SerializeField] private GameObject LineOrbit1;
-    [SerializeField] private float orbitRadius = 2f;
+    private float orbitRadius;
     public bool canOrbit = false;
+
+    private void Start()
+    {
+        orbitRadius = owner.transform.localScale.x * colliderOrbit1.radius;
+    }
 
     private void Update()
     {
         canOrbit = owner.satellites1.Count < SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
+        orbitRadius = owner.transform.localScale.x * colliderOrbit1.radius;
         LogicOnOffLine();
     }
 
@@ -45,8 +52,7 @@ public class Orbit1 : MonoBehaviour
 
     private void SetSatellite(Character character)
     {
-        float distance = (character.tf.position - owner.tf.position).magnitude;
-        character.radius = distance;
+        character.radius = orbitRadius;
         character.isCapture = true;
         character.spinSpeed = 1f;
         character.angle = Mathf.Atan2(character.tf.position.y - owner.tf.position.y, character.tf.position.x - owner.tf.position.x);
@@ -55,15 +61,13 @@ public class Orbit1 : MonoBehaviour
     private void ArrangeSatellites()
     {
         int satelliteCount = owner.satellites1.Count;
-        float angleIncrement = 360f / satelliteCount;
-
-        for (int i = 0; i < satelliteCount; i++)
+        float angleIncrement = 6.28f / satelliteCount;
+        float angleStart = Mathf.Atan2(owner.satellites1[satelliteCount - 1].tf.position.y - owner.tf.position.y, owner.satellites1[satelliteCount - 1].tf.position.x - owner.tf.position.x);
+        for (int i = satelliteCount - 1; i >= 0; i--)
         {
             Character satellite = owner.satellites1[i];
-            float angle = i * angleIncrement;
-            satellite.angle = angle * Mathf.Deg2Rad;
-            Vector3 offset = new Vector3(Mathf.Cos(satellite.angle), Mathf.Sin(satellite.angle)) * orbitRadius;
-            satellite.transform.position = owner.tf.position + offset;
+            satellite.angle = angleStart + ((satelliteCount - 1) - i) * angleIncrement;
         }
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-
 public class Orbit1 : MonoBehaviour
 {
     [SerializeField] private Character owner;
@@ -9,6 +8,7 @@ public class Orbit1 : MonoBehaviour
     [SerializeField] private GameObject LineOrbit1;
     private float orbitRadius;
     private bool canOrbit = false;
+    private bool shouldEnableLine, playerRespawnDone;
 
     private void Start()
     {
@@ -19,22 +19,28 @@ public class Orbit1 : MonoBehaviour
     {
         canOrbit = owner.satellites1.Count < SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
         orbitRadius = owner.transform.localScale.x * colliderOrbit1.radius;
+
+        if (owner.isPlayer)
+        {
+            playerRespawnDone = ReSpawnPlayer.Instance.RespawnDone;
+        }
+
         LogicOnOffLine();
     }
 
     private void LogicOnOffLine()
     {
-        if (owner.generalityType == GeneralityType.Asteroid || owner.generalityType == GeneralityType.BlackHole)
-            LineOrbit1.SetActive(false);
-        else
-            LineOrbit1.SetActive(true);
+        shouldEnableLine = (owner.generalityType == GeneralityType.Planet ||
+                                 owner.generalityType == GeneralityType.Star) && playerRespawnDone;
+
+        LineOrbit1.SetActive(shouldEnableLine);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Character target = collision.GetComponent<Character>();
 
-        if (target != null && owner != null && canOrbit)
+        if (target != null && owner != null && canOrbit && playerRespawnDone)
         {
             if (owner.generalityType == target.generalityType + 1 && target.host == null && !target.isPlayer)
             {
@@ -73,7 +79,6 @@ public class Orbit1 : MonoBehaviour
             newAngle = NormalizeAngle(newAngle);
             //satellite.angle = newAngle;
             DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, 1f);
-
         }
     }
 

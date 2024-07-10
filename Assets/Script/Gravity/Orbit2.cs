@@ -7,6 +7,7 @@ public class Orbit2 : MonoBehaviour
     [SerializeField] private GameObject LineOrbit2;
     private float orbitRadius;
     private bool canOrbit = false;
+    private bool shouldEnableLine, playerRespawnDone;
 
     private void Start()
     {
@@ -17,22 +18,28 @@ public class Orbit2 : MonoBehaviour
     {
         canOrbit = owner.satellites2.Count < SpawnPlanets.instance.GetMaxOrbit2(owner.characterType);
         orbitRadius = owner.transform.localScale.x * colliderOrbit2.radius;
+
+        if (owner.isPlayer)
+        {
+            playerRespawnDone = ReSpawnPlayer.Instance.RespawnDone;
+        }
+
         LogicOnOffLine();
     }
 
     private void LogicOnOffLine()
     {
-        if (owner.generalityType == GeneralityType.Star || owner.characterType == CharacterType.GasGiant)
-            LineOrbit2.SetActive(true);
-        else
-            LineOrbit2.SetActive(false);
+        shouldEnableLine = (owner.generalityType == GeneralityType.Star ||
+                            owner.characterType == CharacterType.GasGiant) && playerRespawnDone;
+
+        LineOrbit2.SetActive(shouldEnableLine);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Character target = collision.GetComponent<Character>();
 
-        if (target != null && owner != null && canOrbit)
+        if (target != null && owner != null && canOrbit && playerRespawnDone)
         {
             if (target.host == null && !target.isPlayer)
             {

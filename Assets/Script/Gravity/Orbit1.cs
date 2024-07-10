@@ -71,14 +71,16 @@ public class Orbit1 : MonoBehaviour
         int satelliteCount = owner.satellites1.Count;
         float angleIncrement = 6.28f / satelliteCount;
         float angleStart = Mathf.Atan2(owner.satellites1[satelliteCount - 1].tf.position.y - owner.tf.position.y, owner.satellites1[satelliteCount - 1].tf.position.x - owner.tf.position.x);
-        for (int i = satelliteCount - 1; i >= 0; i--)
+        SortSatellites(angleStart);
+        for (int i = 0; i < satelliteCount; i++)
         {
             Character satellite = owner.satellites1[i];
-            float newAngle = angleStart + ((satelliteCount - 1) - i) * angleIncrement;
+            float newAngle = angleStart - i * angleIncrement;
             satellite.angle = NormalizeAngle(satellite.angle);
             newAngle = NormalizeAngle(newAngle);
             //satellite.angle = newAngle;
-            DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, 1f);
+            DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
+
         }
     }
 
@@ -93,5 +95,32 @@ public class Orbit1 : MonoBehaviour
             angle += 6.28f;
         }
         return angle;
+    }
+
+    public void SortSatellites(float originalAngle)
+    {
+        for (int i = 0; i < owner.satellites1.Count - 1; i++)
+        {
+            for (int j = i + 1; j < owner.satellites1.Count; j++)
+            {
+                double angleDifference1 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites1[i].angle);
+                //Debug.Log(angleDifference1);
+                double angleDifference2 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites1[j].angle);
+                //Debug.Log(angleDifference2);
+                if (angleDifference1 < 0)
+                    angleDifference1 += 6.28f;
+
+                if (angleDifference2 < 0)
+                    angleDifference2 += 6.28f;
+
+                if (angleDifference1 > angleDifference2)
+                {
+                    // Swap elements
+                    Character temp = owner.satellites1[i];
+                    owner.satellites1[i] = owner.satellites1[j];
+                    owner.satellites1[j] = temp;
+                }
+            }
+        }
     }
 }

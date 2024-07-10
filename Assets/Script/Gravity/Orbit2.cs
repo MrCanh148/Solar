@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class Orbit2 : MonoBehaviour
@@ -75,12 +76,57 @@ public class Orbit2 : MonoBehaviour
         int satelliteCount = owner.satellites2.Count;
         float angleIncrement = 6.28f / satelliteCount;
         float angleStart = Mathf.Atan2(owner.satellites2[satelliteCount - 1].tf.position.y - owner.tf.position.y, owner.satellites2[satelliteCount - 1].tf.position.x - owner.tf.position.x);
-        for (int i = satelliteCount - 1; i >= 0; i--)
+        SortSatellites(angleStart);
+        for (int i = 0; i < satelliteCount; i++)
         {
             Character satellite = owner.satellites2[i];
-            satellite.angle = angleStart + ((satelliteCount - 1) - i) * angleIncrement;
-        }
+            float newAngle = angleStart - i * angleIncrement;
+            satellite.angle = NormalizeAngle(satellite.angle);
+            newAngle = NormalizeAngle(newAngle);
+            //satellite.angle = newAngle;
+            DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
 
+        }
+    }
+
+    public float NormalizeAngle(float angle)
+    {
+        while (angle > 6.28f)
+        {
+            angle -= 6.28f;
+        }
+        while (angle < 0)
+        {
+            angle += 6.28f;
+        }
+        return angle;
+    }
+
+    public void SortSatellites(float originalAngle)
+    {
+        for (int i = 0; i < owner.satellites2.Count - 1; i++)
+        {
+            for (int j = i + 1; j < owner.satellites2.Count; j++)
+            {
+                double angleDifference1 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites2[i].angle);
+                //Debug.Log(angleDifference1);
+                double angleDifference2 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites2[j].angle);
+                //Debug.Log(angleDifference2);
+                if (angleDifference1 < 0)
+                    angleDifference1 += 6.28f;
+
+                if (angleDifference2 < 0)
+                    angleDifference2 += 6.28f;
+
+                if (angleDifference1 > angleDifference2)
+                {
+                    // Swap elements
+                    Character temp = owner.satellites2[i];
+                    owner.satellites2[i] = owner.satellites2[j];
+                    owner.satellites2[j] = temp;
+                }
+            }
+        }
     }
 }
 

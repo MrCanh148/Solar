@@ -84,6 +84,11 @@ public class Orbit2 : MonoBehaviour
             satellite.angle = NormalizeAngle(satellite.angle);
             newAngle = NormalizeAngle(newAngle);
             //satellite.angle = newAngle;
+            float angleVariation = Mathf.Abs(satellite.angle - newAngle);
+            if (angleVariation > 3.14f)
+            {
+                satellite.angle -= 6.28f;
+            }
             DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
 
         }

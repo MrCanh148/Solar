@@ -30,8 +30,13 @@ public class Orbit2 : MonoBehaviour
 
     private void LogicOnOffLine()
     {
-        shouldEnableLine = (owner.generalityType == GeneralityType.Star ||
-                            owner.characterType == CharacterType.GasGiant) && playerRespawnDone;
+        if (owner.isPlayer)
+            shouldEnableLine = (owner.generalityType == GeneralityType.Star ||
+                                    owner.characterType == CharacterType.GasGiant) && playerRespawnDone;
+
+        if (!owner.isPlayer)
+            shouldEnableLine = (owner.generalityType == GeneralityType.Star ||
+                                    owner.characterType == CharacterType.GasGiant);
 
         LineOrbit2.SetActive(shouldEnableLine);
     }
@@ -40,18 +45,37 @@ public class Orbit2 : MonoBehaviour
     {
         Character target = collision.GetComponent<Character>();
 
-        if (target != null && owner != null && canOrbit && playerRespawnDone)
+        if (target != null && owner != null && canOrbit)
         {
-            if (target.host == null && !target.isPlayer)
+            if (!owner.isPlayer)
             {
-                if (((owner.characterType == CharacterType.GasGiant || owner.characterType == CharacterType.Star)
-                && (target.characterType == CharacterType.Planet || target.characterType == CharacterType.LifePlanet))
-                || (owner.characterType == CharacterType.NeutronStar && target.generalityType == GeneralityType.Planet))
+                if (target.host == null && !target.isPlayer)
                 {
-                    AudioManager.instance.PlaySFX("Orbit");
-                    BecomeSatellite(target);
-                    owner.satellites2.Add(target);
-                    ArrangeSatellites();
+                    if (((owner.characterType == CharacterType.GasGiant || owner.characterType == CharacterType.Star)
+                    && (target.characterType == CharacterType.Planet || target.characterType == CharacterType.LifePlanet))
+                    || (owner.characterType == CharacterType.NeutronStar && target.generalityType == GeneralityType.Planet))
+                    {
+                        AudioManager.instance.PlaySFX("Orbit");
+                        BecomeSatellite(target);
+                        owner.satellites2.Add(target);
+                        ArrangeSatellites();
+                    }
+                }
+            }
+            
+            if (owner.isPlayer && playerRespawnDone)
+            {
+                if (target.host == null && !target.isPlayer)
+                {
+                    if (((owner.characterType == CharacterType.GasGiant || owner.characterType == CharacterType.Star)
+                    && (target.characterType == CharacterType.Planet || target.characterType == CharacterType.LifePlanet))
+                    || (owner.characterType == CharacterType.NeutronStar && target.generalityType == GeneralityType.Planet))
+                    {
+                        AudioManager.instance.PlaySFX("Orbit");
+                        BecomeSatellite(target);
+                        owner.satellites2.Add(target);
+                        ArrangeSatellites();
+                    }
                 }
             }
         }
@@ -83,11 +107,13 @@ public class Orbit2 : MonoBehaviour
             float newAngle = angleStart - i * angleIncrement;
             satellite.angle = NormalizeAngle(satellite.angle);
             newAngle = NormalizeAngle(newAngle);
-            //satellite.angle = newAngle;
             float angleVariation = Mathf.Abs(satellite.angle - newAngle);
             if (angleVariation > 3.14f)
             {
-                satellite.angle -= 6.28f;
+                if (newAngle < satellite.angle)
+                    satellite.angle -= 6.28f;
+                else
+                    newAngle -= 6.28f;
             }
             DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
 
@@ -114,9 +140,7 @@ public class Orbit2 : MonoBehaviour
             for (int j = i + 1; j < owner.satellites2.Count; j++)
             {
                 double angleDifference1 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites2[i].angle);
-                //Debug.Log(angleDifference1);
                 double angleDifference2 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites2[j].angle);
-                //Debug.Log(angleDifference2);
                 if (angleDifference1 < 0)
                     angleDifference1 += 6.28f;
 
@@ -125,7 +149,6 @@ public class Orbit2 : MonoBehaviour
 
                 if (angleDifference1 > angleDifference2)
                 {
-                    // Swap elements
                     Character temp = owner.satellites2[i];
                     owner.satellites2[i] = owner.satellites2[j];
                     owner.satellites2[j] = temp;

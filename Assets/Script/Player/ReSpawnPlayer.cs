@@ -38,6 +38,7 @@ public class ReSpawnPlayer : MonoBehaviour
         character.canControl = true;
         resetVelocity = true;
         RespawnDone = true;
+        player.circleCollider2D.enabled = true;
         LogicUIPlayer.Instance.BgFadeIn(1f);
     }
 
@@ -59,6 +60,7 @@ public class ReSpawnPlayer : MonoBehaviour
         character.AllWhenDie();
         character.spriteRenderer.enabled = false;
         character.canControl = false;
+        player.circleCollider2D.enabled = false;
         currentPos = transform.position;
         StartCoroutine(TeleNewPos());
     }

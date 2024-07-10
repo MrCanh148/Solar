@@ -30,8 +30,13 @@ public class Orbit1 : MonoBehaviour
 
     private void LogicOnOffLine()
     {
-        shouldEnableLine = (owner.generalityType == GeneralityType.Planet ||
+        if (owner.isPlayer)
+            shouldEnableLine = (owner.generalityType == GeneralityType.Planet ||
                                  owner.generalityType == GeneralityType.Star) && playerRespawnDone;
+
+        if (!owner.isPlayer)
+            shouldEnableLine = (owner.generalityType == GeneralityType.Planet ||
+                        owner.generalityType == GeneralityType.Star);
 
         LineOrbit1.SetActive(shouldEnableLine);
     }
@@ -40,14 +45,28 @@ public class Orbit1 : MonoBehaviour
     {
         Character target = collision.GetComponent<Character>();
 
-        if (target != null && owner != null && canOrbit && playerRespawnDone)
+        if (target != null && owner != null && canOrbit)
         {
-            if (owner.generalityType == target.generalityType + 1 && target.host == null && !target.isPlayer)
+            if (owner.isPlayer && playerRespawnDone)
             {
-                AudioManager.instance.PlaySFX("Orbit");
-                BecomeSatellite(target);
-                owner.satellites1.Add(target);
-                ArrangeSatellites();
+                if (owner.generalityType == target.generalityType + 1 && target.host == null && !target.isPlayer)
+                {
+                    AudioManager.instance.PlaySFX("Orbit");
+                    BecomeSatellite(target);
+                    owner.satellites1.Add(target);
+                    ArrangeSatellites();
+                }
+            }
+
+            if (!owner.isPlayer)
+            {
+                if (owner.generalityType == target.generalityType + 1 && target.host == null && !target.isPlayer)
+                {
+                    AudioManager.instance.PlaySFX("Orbit");
+                    BecomeSatellite(target);
+                    owner.satellites1.Add(target);
+                    ArrangeSatellites();
+                }
             }
         }
     }
@@ -78,14 +97,14 @@ public class Orbit1 : MonoBehaviour
             float newAngle = angleStart - (i * angleIncrement);
             satellite.angle = NormalizeAngle(satellite.angle);
             newAngle = NormalizeAngle(newAngle);
-            //satellite.angle = newAngle;
             float angleVariation = Mathf.Abs(satellite.angle - newAngle);
-            //Debug.Log("1.oldAngle: " + satellite.angle + " newAngle: " + newAngle);
             if (angleVariation > 3.14f)
             {
-                satellite.angle -= 6.28f;
+                if (newAngle < satellite.angle)
+                    satellite.angle -= 6.28f;
+                else
+                    newAngle -= 6.28f;
             }
-            //Debug.Log("2.oldAngle: " + satellite.angle + " newAngle: " + newAngle);
             DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
 
         }
@@ -111,9 +130,7 @@ public class Orbit1 : MonoBehaviour
             for (int j = i + 1; j < owner.satellites1.Count; j++)
             {
                 double angleDifference1 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites1[i].angle);
-                //Debug.Log(angleDifference1);
                 double angleDifference2 = NormalizeAngle(originalAngle) - NormalizeAngle(owner.satellites1[j].angle);
-                //Debug.Log(angleDifference2);
                 if (angleDifference1 < 0)
                     angleDifference1 += 6.28f;
 
@@ -122,7 +139,6 @@ public class Orbit1 : MonoBehaviour
 
                 if (angleDifference1 > angleDifference2)
                 {
-                    // Swap elements
                     Character temp = owner.satellites1[i];
                     owner.satellites1[i] = owner.satellites1[j];
                     owner.satellites1[j] = temp;

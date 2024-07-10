@@ -15,9 +15,12 @@ public class Attractor : MonoBehaviour
         otherAttractor = Cache.GetCharacterCollider(collision);
         ShootTarget target = collision.gameObject.GetComponent<ShootTarget>();
 
-        if (otherAttractor != null && owner != null)
+        if (otherAttractor != null && owner != null )
         {
-            Attract(owner, otherAttractor);
+            if (owner.isPlayer && ReSpawnPlayer.Instance.RespawnDone)
+                Attract(owner, otherAttractor);
+            else if (!owner.isPlayer)
+                Attract(owner, otherAttractor);
         }
 
         if (collision.gameObject.CompareTag("AirSpace1"))

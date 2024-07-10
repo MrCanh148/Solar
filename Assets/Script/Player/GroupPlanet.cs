@@ -3,31 +3,39 @@ using UnityEngine;
 
 public class GroupPlanet : MonoBehaviour
 {
-    public List<Character> characterChilds = new List<Character>();
-    List<CharacterType> characterTypes = new List<CharacterType>();
+    public List<Character> characterChilds1 = new List<Character>();
+    public List<Character> characterChilds2 = new List<Character>();
+    List<CharacterType> characterTypes1 = new List<CharacterType>();
+    List<CharacterType> characterTypes2 = new List<CharacterType>();
     public Character masterStar;
     CharacterType masterStarType;
 
     private void Awake()
     {
         masterStarType = masterStar.characterType;
-        foreach (Character c in characterChilds)
+        characterTypes1.Clear();
+        foreach (Character c in characterChilds1)
         {
-            characterTypes.Add(c.characterType);
+            characterTypes1.Add(c.characterType);
+        }
+        characterTypes2.Clear();
+        foreach (Character c in characterChilds2)
+        {
+            characterTypes2.Add(c.characterType);
         }
         OnInit();
     }
 
     public void OnInit()
     {
-        this.gameObject.GetComponent<GroupPlanet>().enabled = true;
+        //this.gameObject.GetComponent<GroupPlanet>().enabled = true;
         masterStar.satellites1.Clear();
-        for (int i = 0; i < characterChilds.Count; i++)
+        masterStar.satellites2.Clear();
+        for (int i = 0; i < characterChilds1.Count; i++)
         {
-
-            Character c = characterChilds[i];
+            Character c = characterChilds1[i];
             masterStar.satellites1.Add(c);
-            if (c.characterType != characterTypes[i])
+            if (c.characterType != characterTypes1[i])
             {
                 c.isBasicReSpawn = true;
             }
@@ -35,20 +43,41 @@ public class GroupPlanet : MonoBehaviour
             {
                 c.isBasicReSpawn = false;
             }
-
-            if (characterTypes[i] == CharacterType.Asteroid)
+            if (characterTypes1[i] == CharacterType.Meteoroid)
             {
-                c.rb.mass = 1;
+                c.rb.mass = 2;
             }
             else
-                c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes[i])) / 2;
-            c.gameObject.SetActive(false);
+                c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes1[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes1[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes1[i])) / 2;
+            c.gameObject.SetActive(true);
             c.isCapture = true;
             c.host = masterStar;
-            c.angle = Random.Range(0f, 360f);
-            c.spinSpeed = RandomSpinSpeed(Random.Range(0.5f, 1f));
-            c.radius = (c.tf.position - masterStar.tf.position).magnitude;
-
+            c.spinSpeed = masterStar.spinSpeedOrbit1;
+            c.radius = masterStar.spinSpeedOrbit1;
+        }
+        for (int i = 0; i < characterChilds2.Count; i++)
+        {
+            Character c = characterChilds2[i];
+            masterStar.satellites2.Add(c);
+            if (c.characterType != characterTypes2[i])
+            {
+                c.isBasicReSpawn = true;
+            }
+            else
+            {
+                c.isBasicReSpawn = false;
+            }
+            if (characterTypes2[i] == CharacterType.Meteoroid)
+            {
+                c.rb.mass = 2;
+            }
+            else
+                c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes2[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes2[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes1[i])) / 2;
+            c.gameObject.SetActive(true);
+            c.isCapture = true;
+            c.host = masterStar;
+            c.spinSpeed = masterStar.spinSpeedOrbit2;
+            c.radius = masterStar.spinSpeedOrbit2;
         }
         masterStar.isBasicReSpawn = true;
         if (masterStar.characterType != masterStarType)
@@ -60,13 +89,9 @@ public class GroupPlanet : MonoBehaviour
             masterStar.isBasicReSpawn = false;
         }
         masterStar.rb.mass = SpawnPlanets.instance.GetRequiredMass(masterStarType) + (SpawnPlanets.instance.GetRequiredMass(masterStarType + 1) - SpawnPlanets.instance.GetRequiredMass(masterStarType)) / 2;
-
         masterStar.gameObject.SetActive(true);
-
-        foreach (Character c in characterChilds)
-        {
-            c.gameObject.SetActive(true);
-        }
+        masterStar.ResetAngleSatellites1();
+        masterStar.ResetAngleSatellites2();
     }
 
     public float RandomSpinSpeed(float n)

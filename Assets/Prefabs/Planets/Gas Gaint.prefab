@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40dc936e4fa2cfd48815b078a1457e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
+  characterType: 4
   generalityType: 1
   rb: {fileID: 5601220313105698165}
   tf: {fileID: 4468884107669591035}
@@ -641,7 +641,6 @@ MonoBehaviour:
   owner: {fileID: 2854190157192923888}
   colliderOrbit1: {fileID: 8046390581468420852}
   LineOrbit1: {fileID: 4532865470539629678}
-  canOrbit: 0
 --- !u!1 &8010807078734385525
 GameObject:
   m_ObjectHideFlags: 0

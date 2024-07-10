@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40dc936e4fa2cfd48815b078a1457e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
+  characterType: 1
   generalityType: 0
   rb: {fileID: 2836117614331127279}
   tf: {fileID: 4425067624693472353}
@@ -725,4 +725,3 @@ MonoBehaviour:
   owner: {fileID: 2840457129638170026}
   colliderOrbit1: {fileID: 4616060606885611766}
   LineOrbit1: {fileID: 2307345864308061438}
-  canOrbit: 0

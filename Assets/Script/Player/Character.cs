@@ -39,7 +39,11 @@ public class Character : MonoBehaviour
     public bool isBasicReSpawn;
     public SpriteRenderer spriteRenderer;
     public List<Character> satellites1;
+    public float radiusOrbit1;
+    public float spinSpeedOrbit1;
     public List<Character> satellites2;
+    public float radiusOrbit2;
+    public float spinSpeedOrbit2;
 
     [Header("========= Orbit =========")]
     public Character host;
@@ -62,6 +66,8 @@ public class Character : MonoBehaviour
     protected virtual void Start()
     {
         SpeedRotate = GenerateRandomValue();
+        spinSpeedOrbit1 = 1f;
+        spinSpeedOrbit2 = -1.5f;
     }
 
     private void OnEnable()
@@ -339,6 +345,8 @@ public class Character : MonoBehaviour
             if (host.satellites2.Contains(this))
             {
                 host.satellites2.Remove(this);
+                float angleStart = Mathf.Atan2(this.tf.position.y - host.tf.position.y, this.tf.position.x - host.tf.position.x);
+                SortSatellites(satellites2, angleStart);
                 host.ResetAngleSatellites2();
             }
 
@@ -359,7 +367,7 @@ public class Character : MonoBehaviour
 
     public void ResetAngleSatellites1()
     {
-        if (satellites1.Count > 0)
+        if (satellites1.Count > 1)
         {
             int satelliteCount = satellites1.Count;
             float angleIncrement = 6.28f / satelliteCount;
@@ -386,7 +394,7 @@ public class Character : MonoBehaviour
 
     public void ResetAngleSatellites2()
     {
-        if (satellites2.Count > 0)
+        if (satellites2.Count > 1)
         {
             int satelliteCount = satellites2.Count;
             float angleIncrement = 6.28f / satelliteCount;
@@ -394,7 +402,19 @@ public class Character : MonoBehaviour
             for (int i = 0; i < satelliteCount; i++)
             {
                 Character satellite = satellites2[i];
-                satellite.angle = angleStart + i * angleIncrement;
+                float newAngle = angleStart - i * angleIncrement;
+                satellite.angle = NormalizeAngle(satellite.angle);
+                newAngle = NormalizeAngle(newAngle);
+                float angleVariation = Mathf.Abs(satellite.angle - newAngle);
+                if (angleVariation > 3.14f)
+                {
+                    if (newAngle < satellite.angle)
+                        satellite.angle -= 6.28f;
+                    else
+                        newAngle -= 6.28f;
+                }
+                DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
+
             }
         }
     }

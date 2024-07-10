@@ -19,7 +19,7 @@ public class Orbit1 : MonoBehaviour
     {
         canOrbit = owner.satellites1.Count < SpawnPlanets.instance.GetMaxOrbit1(owner.characterType);
         orbitRadius = owner.transform.localScale.x * colliderOrbit1.radius;
-
+        owner.radiusOrbit1 = orbitRadius;
         if (owner.isPlayer)
         {
             playerRespawnDone = ReSpawnPlayer.Instance.RespawnDone;
@@ -81,7 +81,7 @@ public class Orbit1 : MonoBehaviour
     {
         character.radius = orbitRadius;
         character.isCapture = true;
-        character.spinSpeed = 1f;
+        character.spinSpeed = owner.spinSpeedOrbit1;
         character.angle = Mathf.Atan2(character.tf.position.y - owner.tf.position.y, character.tf.position.x - owner.tf.position.x);
     }
 

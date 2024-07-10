@@ -332,6 +332,8 @@ public class Character : MonoBehaviour
             if (host.satellites1.Contains(this))
             {
                 host.satellites1.Remove(this);
+                float angleStart = Mathf.Atan2(this.tf.position.y - host.tf.position.y, this.tf.position.x - host.tf.position.x);
+                SortSatellites(satellites1, angleStart);
                 host.ResetAngleSatellites1();
             }
             if (host.satellites2.Contains(this))
@@ -365,7 +367,12 @@ public class Character : MonoBehaviour
             for (int i = 0; i < satelliteCount; i++)
             {
                 Character satellite = satellites1[i];
-                satellite.angle = angleStart + i * angleIncrement;
+                float newAngle = angleStart - i * angleIncrement;
+                satellite.angle = NormalizeAngle(satellite.angle);
+                newAngle = NormalizeAngle(newAngle);
+                //satellite.angle = newAngle;
+                DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
+
             }
         }
     }
@@ -383,6 +390,46 @@ public class Character : MonoBehaviour
                 satellite.angle = angleStart + i * angleIncrement;
             }
         }
+    }
+
+    public void SortSatellites(List<Character> satellites, float originalAngle)
+    {
+        for (int i = 0; i < satellites.Count - 1; i++)
+        {
+            for (int j = i + 1; j < satellites.Count; j++)
+            {
+                double angleDifference1 = NormalizeAngle(originalAngle) - NormalizeAngle(satellites1[i].angle);
+                //Debug.Log(angleDifference1);
+                double angleDifference2 = NormalizeAngle(originalAngle) - NormalizeAngle(satellites1[j].angle);
+                //Debug.Log(angleDifference2);
+                if (angleDifference1 < 0)
+                    angleDifference1 += 6.28f;
+
+                if (angleDifference2 < 0)
+                    angleDifference2 += 6.28f;
+
+                if (angleDifference1 > angleDifference2)
+                {
+                    // Swap elements
+                    Character temp = satellites1[i];
+                    satellites1[i] = satellites1[j];
+                    satellites1[j] = temp;
+                }
+            }
+        }
+    }
+
+    public float NormalizeAngle(float angle)
+    {
+        while (angle > 6.28f)
+        {
+            angle -= 6.28f;
+        }
+        while (angle < 0)
+        {
+            angle += 6.28f;
+        }
+        return angle;
     }
 
     public void SoundAndVfxDie()

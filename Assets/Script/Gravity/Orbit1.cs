@@ -75,7 +75,7 @@ public class Orbit1 : MonoBehaviour
         for (int i = 0; i < satelliteCount; i++)
         {
             Character satellite = owner.satellites1[i];
-            float newAngle = angleStart - i * angleIncrement;
+            float newAngle = angleStart - (i * angleIncrement);
             satellite.angle = NormalizeAngle(satellite.angle);
             newAngle = NormalizeAngle(newAngle);
             //satellite.angle = newAngle;

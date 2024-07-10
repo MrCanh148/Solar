@@ -223,7 +223,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             case CharacterType.Meteoroid:
                 spawnRates[CharacterType.Meteoroid] = 0;
                 spawnRates[CharacterType.Asteroid] = 100;
-                spawnRates[CharacterType.Planet] = 0;
+                spawnRates[CharacterType.Planet] = 50;
                 spawnRates[CharacterType.LifePlanet] = 0;
                 spawnRates[CharacterType.GasGiant] = 0;
                 spawnRates[CharacterType.Star] = 0;

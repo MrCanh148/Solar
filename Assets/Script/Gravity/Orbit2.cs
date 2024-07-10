@@ -19,7 +19,7 @@ public class Orbit2 : MonoBehaviour
     {
         canOrbit = owner.satellites2.Count < SpawnPlanets.instance.GetMaxOrbit2(owner.characterType);
         orbitRadius = owner.transform.localScale.x * colliderOrbit2.radius;
-
+        owner.radiusOrbit2 = orbitRadius;
         if (owner.isPlayer)
         {
             playerRespawnDone = ReSpawnPlayer.Instance.RespawnDone;
@@ -62,7 +62,7 @@ public class Orbit2 : MonoBehaviour
                     }
                 }
             }
-            
+
             if (owner.isPlayer && playerRespawnDone)
             {
                 if (target.host == null && !target.isPlayer)
@@ -91,7 +91,7 @@ public class Orbit2 : MonoBehaviour
     {
         character.radius = orbitRadius;
         character.isCapture = true;
-        character.spinSpeed = 1f;
+        character.spinSpeed = owner.spinSpeedOrbit2;
         character.angle = Mathf.Atan2(character.tf.position.y - owner.tf.position.y, character.tf.position.x - owner.tf.position.x);
     }
 

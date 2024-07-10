@@ -10802,10 +10802,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032668357}
-  - component: {fileID: 2032668359}
   - component: {fileID: 2032668358}
+  - component: {fileID: 2032668359}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10870,9 +10870,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2032668356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 555e7e1c3f46330468ae96120b6ba2d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 817dc112e96bc3c448067a95c1f1ed14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1129987341}
 --- !u!1 &2043292149
 GameObject:
   m_ObjectHideFlags: 0

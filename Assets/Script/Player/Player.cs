@@ -66,7 +66,6 @@ public class Player : Character
 
         if (Input.GetMouseButtonDown(0) && canTaptoAbsore)
         {
-     
             Vector2 rayOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.zero);
 
@@ -76,7 +75,7 @@ public class Player : Character
                 if (hit.collider != null && hit.collider.gameObject.CompareTag("Planet") && targetCharacter.myFamily == myFamily)
                 {
                     canTaptoAbsore = false;
-                    TryAbsorbCharacter();
+                    TryAbsorbCharacter(targetCharacter);
                     break;
                 }
             }
@@ -171,13 +170,9 @@ public class Player : Character
         externalVelocity = Vector2.zero;
     }
 
-    private void TryAbsorbCharacter()
+    private void TryAbsorbCharacter(Character character)
     {
-        Character character = GetCharacteHaveSatellite();
-        if (character != null)
-        {
-            AudioManager.instance.PlaySFX("Eat");
-            AbsorbCharacter(this, character);
-        }
+        AudioManager.instance.PlaySFX("Eat");
+        AbsorbCharacter(this, character);
     }
 }

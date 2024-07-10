@@ -301,25 +301,6 @@ public class Character : MonoBehaviour
         return character;
     }
 
-    public Character GetCharacteHaveSatellite()
-    {
-        Character character = null;
-        if (satellites1.Count > 0)
-        {
-            character = satellites1[0];
-
-            foreach (var c in satellites1)
-            {
-                if (c.satellites1.Count > character.satellites1.Count)
-                {
-                    character = c;
-                }
-            }
-        }
-        return character;
-
-    }
-
     private Vector2 CalculateProjection(Vector2 v1, Vector2 v2)
     {
         // Tính phép chiếu vector v1 lên v2

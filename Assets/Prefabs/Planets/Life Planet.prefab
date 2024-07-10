@@ -165,7 +165,6 @@ MonoBehaviour:
   owner: {fileID: 806902970920387061}
   colliderOrbit1: {fileID: 7427892845881072460}
   LineOrbit1: {fileID: 9065119774297898161}
-  canOrbit: 0
 --- !u!1 &5817249685247512011
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,8 +416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40dc936e4fa2cfd48815b078a1457e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
-  generalityType: 0
+  characterType: 3
+  generalityType: 1
   rb: {fileID: 4829039784216335299}
   tf: {fileID: 5437373136339479325}
   circleCollider2D: {fileID: 7159320893950805982}

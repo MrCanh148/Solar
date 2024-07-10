@@ -57,7 +57,10 @@ public class Bullet : MonoBehaviour
                         else
                         {
                             if (target.host != null)
+                            {
                                 target.host.satellites1.Remove(target);
+                                target.host.satellites2.Remove(target);
+                            }
 
                             if (target.generalityType == GeneralityType.Asteroid)
                                 target.gameObject.SetActive(false);

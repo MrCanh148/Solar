@@ -129,6 +129,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 2840457129638170026, guid: 0afb9d6c5497c7c43a89828ad72cf5eb, type: 3}
+      propertyPath: host
+      value: 
+      objectReference: {fileID: 7212535604193562853}
+    - target: {fileID: 2840457129638170026, guid: 0afb9d6c5497c7c43a89828ad72cf5eb, type: 3}
+      propertyPath: isSetup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840457129638170026, guid: 0afb9d6c5497c7c43a89828ad72cf5eb, type: 3}
+      propertyPath: myFamily
+      value: 
+      objectReference: {fileID: 7212535604193562853}
     - target: {fileID: 4425067624693472353, guid: 0afb9d6c5497c7c43a89828ad72cf5eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.016
@@ -242,6 +254,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: host
+      value: 
+      objectReference: {fileID: 7212535604193562853}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: isSetup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: myFamily
+      value: 
+      objectReference: {fileID: 7212535604193562853}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: isCapture
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -313,6 +341,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6562477129202583219, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: host
+      value: 
+      objectReference: {fileID: 7212535604193562853}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: isSetup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: myFamily
+      value: 
+      objectReference: {fileID: 7212535604193562853}
+    - target: {fileID: 9177087074750633419, guid: 6a92d56936fae484eb73b3885def086b, type: 3}
+      propertyPath: isCapture
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

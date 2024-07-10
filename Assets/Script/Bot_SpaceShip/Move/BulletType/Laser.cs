@@ -70,7 +70,10 @@ public class Laser : MonoBehaviour
                                         else
                                         {
                                             if (targetCharacter.host != null)
+                                            {
                                                 targetCharacter.host.satellites1.Remove(targetCharacter);
+                                                targetCharacter.host.satellites2.Remove(targetCharacter);
+                                            }
 
                                             if (targetCharacter.generalityType == GeneralityType.Asteroid)
                                                 targetCharacter.gameObject.SetActive(false);

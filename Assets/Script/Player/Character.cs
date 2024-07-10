@@ -371,10 +371,12 @@ public class Character : MonoBehaviour
                 satellite.angle = NormalizeAngle(satellite.angle);
                 newAngle = NormalizeAngle(newAngle);
                 float angleVariation = Mathf.Abs(satellite.angle - newAngle);
+                //Debug.Log("1.oldAngle: " + satellite.angle + " newAngle: " + newAngle);
                 if (angleVariation > 3.14f)
                 {
                     satellite.angle -= 6.28f;
                 }
+                //Debug.Log("2.oldAngle: " + satellite.angle + " newAngle: " + newAngle);
                 //satellite.angle = newAngle;
                 DOTween.To(() => satellite.angle, x => satellite.angle = x, newAngle, .5f);
 

@@ -147,6 +147,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
 
         character.isBasicReSpawn = true;
         character.circleCollider2D.enabled = true;
+        character.transform.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
     }
 
     public void ActiveCharacter2(Character character)

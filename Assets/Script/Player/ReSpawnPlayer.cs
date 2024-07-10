@@ -6,6 +6,7 @@ public class ReSpawnPlayer : MonoBehaviour
     public static ReSpawnPlayer Instance;
 
     [SerializeField] private float distanceTele;
+    public bool RespawnDone = false;
 
     private Character character;
     private Player player;
@@ -14,7 +15,6 @@ public class ReSpawnPlayer : MonoBehaviour
 
     private void Start()
     {
-
         Instance = this;
         character = GetComponent<Character>();
         player = GetComponent<Player>();
@@ -37,6 +37,7 @@ public class ReSpawnPlayer : MonoBehaviour
         character.spriteRenderer.enabled = true;
         character.canControl = true;
         resetVelocity = true;
+        RespawnDone = true;
         LogicUIPlayer.Instance.BgFadeIn(1f);
     }
 
@@ -52,6 +53,7 @@ public class ReSpawnPlayer : MonoBehaviour
 
     public void ResPlayer()
     {
+        RespawnDone = false;
         player.ResetVelocity();
         LogicUIPlayer.Instance.BgFadeOut(0.5f);
         character.AllWhenDie();

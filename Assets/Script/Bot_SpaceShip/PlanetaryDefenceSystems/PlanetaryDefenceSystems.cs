@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlanetaryDefenceSystems : MonoBehaviour
 {
     [SerializeField] Character owner;
-    [SerializeField] private GameObject[] TurretMiniCam;
     [SerializeField] List<Turret> turrets;
 
     [Header("AOM")]
@@ -55,6 +54,8 @@ public class PlanetaryDefenceSystems : MonoBehaviour
         {
             timeAttackAOC += Time.deltaTime;
         }
+
+        transform.rotation = Quaternion.identity;
     }
 
     private void FixedUpdate()
@@ -122,17 +123,12 @@ public class PlanetaryDefenceSystems : MonoBehaviour
         {
             if (i < quantity)
             {
-                if (TurretMiniCam != null && TurretMiniCam.Length > i && TurretMiniCam[i] != null)
-                    TurretMiniCam[i].SetActive(true);
-
                 turrets[i].gameObject.SetActive(true);
                 turrets[i].OwnerCharacter = owner;
             }
             else
             {
                 turrets[i].gameObject.SetActive(false);
-                if (TurretMiniCam != null && TurretMiniCam.Length > i && TurretMiniCam[i] != null)
-                    TurretMiniCam[i].SetActive(false);
             }
         }
     }

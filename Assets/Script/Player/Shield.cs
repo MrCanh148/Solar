@@ -4,7 +4,6 @@ using UnityEngine;
 public class Shield : MonoBehaviour
 {
     [SerializeField] private GameObject ShieldObject;
-    [SerializeField] private GameObject ShieldMiniCam;
     [SerializeField] private float TimeToFullRecharge = 10f;
     [SerializeField] private float TimePlanetNotAllowTakeDam = 5f;
     public float ShieldPlanet;
@@ -40,15 +39,11 @@ public class Shield : MonoBehaviour
         {
             if (ShieldObject != null)
                 ShieldObject.SetActive(true);
-            if (ShieldMiniCam != null)
-                ShieldMiniCam.SetActive(true);
         }
         else if (ShieldPlanet <= 0 || character.characterType != CharacterType.LifePlanet)
         {
             if (ShieldObject != null)
                 ShieldObject.SetActive(false);
-            if (ShieldMiniCam != null)
-                ShieldMiniCam.SetActive(false);
         }
 
 

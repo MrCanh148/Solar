@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Planet
+  - AirSpace1
+  - Bullet
+  - Shield
   layers:
   - Default
   - TransparentFX

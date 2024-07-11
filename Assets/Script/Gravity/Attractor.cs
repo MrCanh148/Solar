@@ -20,7 +20,13 @@ public class Attractor : MonoBehaviour
             if (owner.isPlayer && ReSpawnPlayer.Instance.RespawnDone)
                 Attract(owner, otherAttractor);
             else if (!owner.isPlayer)
-                Attract(owner, otherAttractor);
+            {
+                if (otherAttractor.isPlayer && ReSpawnPlayer.Instance.RespawnDone)
+                    Attract(owner, otherAttractor);
+
+                if (!otherAttractor.isPlayer)
+                    Attract(owner, otherAttractor);
+            }
         }
 
         if (collision.gameObject.CompareTag("AirSpace1"))

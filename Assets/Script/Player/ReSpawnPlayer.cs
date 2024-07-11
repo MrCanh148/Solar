@@ -6,7 +6,7 @@ public class ReSpawnPlayer : MonoBehaviour
     public static ReSpawnPlayer Instance;
 
     [SerializeField] private float distanceTele;
-    public bool RespawnDone = false;
+    public bool RespawnDone = true;
 
     private Character character;
     private Player player;

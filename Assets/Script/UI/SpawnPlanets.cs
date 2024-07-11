@@ -138,6 +138,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.gameObject.SetActive(true);
             character.tf.localPosition = SpawnerCharacter();
             character.velocity = RandomInitialVelocity(2f);
+            character.circleCollider2D.enabled = true;
         }
 
         if (type == CharacterType.Meteoroid)
@@ -146,7 +147,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.rb.mass = GetRequiredMass(type) + (GetRequiredMass(type + 1) - GetRequiredMass(type)) / 2;
 
         character.isBasicReSpawn = true;
-        character.circleCollider2D.enabled = true;
+  
         //character.tf.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
     }
 

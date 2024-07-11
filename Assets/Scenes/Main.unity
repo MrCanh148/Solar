@@ -9143,6 +9143,7 @@ GameObject:
   - component: {fileID: 1692615710}
   - component: {fileID: 1692615709}
   - component: {fileID: 1692615711}
+  - component: {fileID: 1692615712}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -9270,6 +9271,25 @@ MonoBehaviour:
   Star: 324
   Neutron: 1000
   BlackHole: 10000
+--- !u!114 &1692615712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692615705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0b271cc1feaca48a0c07cdeea13cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeteoroidDamage: 2
+  AsteroidDamage: 4
+  PlanetDamage: 8
+  LifePlanetDamage: 16
+  GasGiantDamage: 32
+  StarDamage: 64
+  NeutronDamage: 128
 --- !u!1 &1706275375
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,10 @@ public class Orbit2 : MonoBehaviour
     private bool canOrbit = false;
     private bool shouldEnableLine, playerRespawnDone;
 
-    private void Start()
+    private void Awake()
     {
         orbitRadius = owner.transform.localScale.x * colliderOrbit2.radius;
+        owner.radiusOrbit2 = orbitRadius;
     }
 
     private void Update()

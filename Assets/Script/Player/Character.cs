@@ -66,12 +66,13 @@ public class Character : MonoBehaviour
     protected virtual void Start()
     {
         SpeedRotate = GenerateRandomValue();
-        spinSpeedOrbit1 = 1f;
-        spinSpeedOrbit2 = -1.5f;
+
     }
 
     private void OnEnable()
     {
+        spinSpeedOrbit1 = 1f;
+        spinSpeedOrbit2 = -1.5f;
         if (!isSetup)
             OnInit();
     }
@@ -97,7 +98,14 @@ public class Character : MonoBehaviour
         }
 
         if (host != null && tf != null)
+        {
             myFamily = host.myFamily;
+            if (host.satellites1.Contains(this))
+                radius = host.radiusOrbit1;
+            if (host.satellites2.Contains(this))
+                radius = host.radiusOrbit2;
+        }
+
 
     }
 

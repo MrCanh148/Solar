@@ -6045,7 +6045,11 @@ MonoBehaviour:
   isBasicReSpawn: 0
   spriteRenderer: {fileID: 1129987339}
   satellites1: []
+  radiusOrbit1: 0
+  spinSpeedOrbit1: 0
   satellites2: []
+  radiusOrbit2: 0
+  spinSpeedOrbit2: 0
   host: {fileID: 0}
   radius: 0
   spinSpeed: 0
@@ -8288,6 +8292,7 @@ GameObject:
   - component: {fileID: 1692615710}
   - component: {fileID: 1692615709}
   - component: {fileID: 1692615711}
+  - component: {fileID: 1692615712}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8389,6 +8394,10 @@ MonoBehaviour:
   asteroidGroups: []
   groupPlanetsPrefab:
   - {fileID: 7029665108402395907, guid: 2800390ff62350a4c8f285cfa1f9d7f1, type: 3}
+  - {fileID: 8747193912007148020, guid: f47657c875676ae4b9bac83d149a3e41, type: 3}
+  - {fileID: 467152759829307735, guid: 863a8a38786c0a04cacedfbdfd0d49e6, type: 3}
+  - {fileID: 4762989167631035418, guid: 281bc0baeed14ce4185d53792790c192, type: 3}
+  - {fileID: 8125003152425953329, guid: 136e192dc71064541ba12c9e7eae9d43, type: 3}
   groupPlanets: []
   quantityPlanetActive: 0
 --- !u!114 &1692615711
@@ -8411,6 +8420,25 @@ MonoBehaviour:
   Star: 324
   Neutron: 1000
   BlackHole: 10000
+--- !u!114 &1692615712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692615705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0b271cc1feaca48a0c07cdeea13cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeteoroidDamage: 2
+  AsteroidDamage: 4
+  PlanetDamage: 8
+  LifePlanetDamage: 16
+  GasGiantDamage: 32
+  StarDamage: 64
+  NeutronDamage: 128
 --- !u!1 &1706275375
 GameObject:
   m_ObjectHideFlags: 0

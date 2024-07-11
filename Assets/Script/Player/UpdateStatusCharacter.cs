@@ -80,6 +80,7 @@ public class UpdateStatusCharacter : MonoBehaviour
                 if (owner.characterType == c.characterType)
                 {
                     requiredMass = c.requiredMass;
+                    owner.tf.DOScale(c.scale, 0f);
                 }
             }
         } while (typeChanged); // Tiếp tục vòng lặp nếu loại đã thay đổi

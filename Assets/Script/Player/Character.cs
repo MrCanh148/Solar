@@ -256,7 +256,7 @@ public class Character : MonoBehaviour
         AudioManager.instance.PlaySFX("Eat");
         LogicPointAbsore.instance.AddPoint(c1, c2);
         c2.AllWhenDie();
-        SpawnPlanets.instance.DeActiveCharacter(c2);
+        SpawnPlanets.instance.ActiveCharacter(c2, c2.characterType);
     }
 
     protected virtual void ResetExternalVelocity()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 2
   deceleration: 0.8
-  minimumMergeForce: 6.26
+  minimumMergeForce: 2
   coefficientActiveGameObject: 3
   coefficientAttractive: 1
   timeToCapture: 0

@@ -7,7 +7,7 @@ public class ShootTarget : MonoBehaviour
     [SerializeField] private GameObject[] bulletPrefab;
     [SerializeField] private GameObject childObject;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float fireAngle = 20f; // Góc phía trước
+    [SerializeField] private float fireAngle = 4f; // Góc phía trước
 
     [SerializeField] private float bulletFireInterval = 0.1f; // Thời gian bắn đạn liên tiếp
     [SerializeField] private float laserFireInterval = 2f; // Thời gian bắn laser

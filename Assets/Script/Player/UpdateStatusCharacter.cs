@@ -23,27 +23,6 @@ public class UpdateStatusCharacter : MonoBehaviour
 
     public void UpdateInfoCharacter()
     {
-        if (owner.characterType == CharacterType.Meteoroid)
-        {
-            if (owner.rb.mass < requiredMass)
-            {
-                if (!this.owner.isBasicReSpawn)
-                {
-                    this.owner.SoundAndVfxDie();
-                    this.owner.AllWhenDie();
-                    SpawnPlanets.instance.ActiveCharacter(this.owner, this.owner.characterType + 1);
-                    this.owner.isBasicReSpawn = false;
-
-                }
-                else
-                {
-                    this.owner.AllWhenDie();
-                    this.owner.isBasicReSpawn = false;
-                }
-                return;
-            }
-        }
-
         bool typeChanged;
         do
         {

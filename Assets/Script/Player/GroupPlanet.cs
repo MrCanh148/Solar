@@ -32,22 +32,26 @@ public class GroupPlanet : MonoBehaviour
         for (int i = 0; i < characterChilds.Count; i++)
         {
             Character c = characterChilds[i];
-            if (c.characterType != characterTypes[i])
+            if (i < characterTypes.Count)
             {
-                c.isBasicReSpawn = true;
+                if (c.characterType != characterTypes[i])
+                {
+                    c.isBasicReSpawn = true;
+                }
+                else
+                {
+                    c.isBasicReSpawn = false;
+                }
+                if (characterTypes[i] == CharacterType.Meteoroid)
+                {
+                    c.rb.mass = 2;
+                }
+                else
+                    c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes[i])) / 2;
             }
-            else
-            {
-                c.isBasicReSpawn = false;
-            }
-            if (characterTypes[i] == CharacterType.Meteoroid)
-            {
-                c.rb.mass = 2;
-            }
-            else
-                c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes[i])) / 2;
             c.gameObject.SetActive(true);
-            c.tf.localPosition = StartPositions[i];
+            if (i < StartPositions.Count)
+                c.tf.localPosition = StartPositions[i];
         }
 
         if (masterStar.characterType != masterStarType)

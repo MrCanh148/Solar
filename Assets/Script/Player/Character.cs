@@ -165,33 +165,44 @@ public class Character : MonoBehaviour
         float gravitational = (mainVelocity - character.mainVelocity).magnitude;
 
         //========================================================= logic asteroid
-        if (generalityType == GeneralityType.Asteroid && character.generalityType == GeneralityType.Asteroid)
+        if (generalityType == GeneralityType.Asteroid)
         {
-            if (characterType >= character.characterType)
+            if (character.generalityType == GeneralityType.Asteroid)
             {
-                if (gravitational <= GameManager.instance.status.minimumMergeForce)
+                if (characterType >= character.characterType)
                 {
-                    Vector2 velocity = (2 * rb.mass * mainVelocity + (character.rb.mass - rb.mass) * character.mainVelocity) / (rb.mass + character.rb.mass);
-                    character.velocity = new Vector2(velocity.x, velocity.y);
-                    character.ResetExternalVelocity();
-                    AudioManager.instance.PlaySFX("Hit");
-                    VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
-                }
-                else
-                {
-                    if (this.isPlayer)
+                    if (gravitational <= GameManager.instance.status.minimumMergeForce)
                     {
-                        MergeCharacter(this, character);
-                        Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
-                        velocity = new Vector2(velocityS.x, velocityS.y);
+                        Vector2 velocity = (2 * rb.mass * mainVelocity + (character.rb.mass - rb.mass) * character.mainVelocity) / (rb.mass + character.rb.mass);
+                        character.velocity = new Vector2(velocity.x, velocity.y);
+                        character.ResetExternalVelocity();
+                        AudioManager.instance.PlaySFX("Hit");
+                        VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
                     }
-                    else if (this.GetInstanceID() > character.GetInstanceID())
+                    else
                     {
-                        MergeCharacter(this, character);
-                        Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
-                        velocity = new Vector2(velocityS.x, velocityS.y);
+                        if (this.isPlayer)
+                        {
+                            MergeCharacter(this, character);
+                            Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
+                            velocity = new Vector2(velocityS.x, velocityS.y);
+                        }
+                        else if (this.GetInstanceID() > character.GetInstanceID())
+                        {
+                            MergeCharacter(this, character);
+                            Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
+                            velocity = new Vector2(velocityS.x, velocityS.y);
+                        }
                     }
                 }
+            }
+            else
+            {
+                LogicMassDamage.instance.OnDamage(character, this);
+                VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
+                AudioManager.instance.PlaySFX("Hit");
+                SpawnPlanets.instance.ActiveCharacter2(this);
+
             }
             return;
         }

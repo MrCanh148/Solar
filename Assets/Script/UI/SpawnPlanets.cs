@@ -140,7 +140,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.velocity = RandomInitialVelocity(2f);
         }
 
-        if (type == CharacterType.Asteroid)
+        if (type == CharacterType.Meteoroid)
             character.rb.mass = (int)Random.Range(1, 3);
         else
             character.rb.mass = GetRequiredMass(type) + (GetRequiredMass(type + 1) - GetRequiredMass(type)) / 2;

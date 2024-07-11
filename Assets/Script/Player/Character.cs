@@ -169,7 +169,7 @@ public class Character : MonoBehaviour
         {
             if (character.generalityType == GeneralityType.Asteroid)
             {
-                if (characterType >= character.characterType)
+                if (characterType == character.characterType)
                 {
                     if (gravitational <= GameManager.instance.status.minimumMergeForce)
                     {
@@ -195,13 +195,19 @@ public class Character : MonoBehaviour
                         }
                     }
                 }
+                else if (characterType > character.characterType)
+                {
+                    MergeCharacter(this, character);
+                    Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
+                    velocity = new Vector2(velocityS.x, velocityS.y);
+                }
             }
             else
             {
                 LogicMassDamage.instance.OnDamage(character, this);
                 VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
                 AudioManager.instance.PlaySFX("Hit");
-                SpawnPlanets.instance.ActiveCharacter2(this);
+                SpawnPlanets.instance.ActiveCharacter(this, characterType);
 
             }
             return;

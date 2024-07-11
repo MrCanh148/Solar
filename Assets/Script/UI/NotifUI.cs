@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NotifUI : MonoBehaviour, IQuest2Listener
+public class NotifUI : MonoBehaviour //, IQuest2Listener
 {
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI Name, Info;
@@ -13,7 +13,7 @@ public class NotifUI : MonoBehaviour, IQuest2Listener
 
     private void Awake()
     {
-        QuestEventManager.Instance.RegisterListener(this);
+        //QuestEventManager.Instance.RegisterListener(this);
         bgCanvasGroup = Bg.GetComponent<CanvasGroup>();
         if (bgCanvasGroup == null)
         {
@@ -21,10 +21,10 @@ public class NotifUI : MonoBehaviour, IQuest2Listener
         }
     }
 
-    private void OnDestroy()
-    {
-        QuestEventManager.Instance.UnregisterListener(this);
-    }
+    //private void OnDestroy()
+    //{
+    //    QuestEventManager.Instance.UnregisterListener(this);
+    //}
 
     private void Update()
     {
@@ -44,12 +44,12 @@ public class NotifUI : MonoBehaviour, IQuest2Listener
     }
 
     // Implement IQuest2Listener
-    public void OnQuest2Started() { }
+    //public void OnQuest2Started() { }
 
-    public void OnQuest2Completed()
-    {
-        BgFadeOut();
-    }
+    //public void OnQuest2Completed()
+    //{
+    //    BgFadeOut();
+    //}
 
     public void OnQuest2ProgressUpdated(int percentage)
     {       

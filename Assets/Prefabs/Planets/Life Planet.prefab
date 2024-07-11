@@ -418,8 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40dc936e4fa2cfd48815b078a1457e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
-  generalityType: 0
+  characterType: 3
+  generalityType: 1
   rb: {fileID: 4829039784216335299}
   tf: {fileID: 5437373136339479325}
   circleCollider2D: {fileID: 7159320893950805982}

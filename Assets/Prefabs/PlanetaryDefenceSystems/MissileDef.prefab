@@ -137,5 +137,5 @@ MonoBehaviour:
   rotationSpeed: 2000
   TimeLimit: 3
   characterOwner: {fileID: 0}
-  damage: 10
+  damage: 5
   source: {fileID: 0}

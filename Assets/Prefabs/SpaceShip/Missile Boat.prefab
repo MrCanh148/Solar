@@ -237,7 +237,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -300,7 +300,7 @@ MonoBehaviour:
   changeDirectionInterval: 4
   moveSpeed: 3
   rotationSpeed: 20
-  type: 0
+  type: 2
   centerPoint: {fileID: 0}
 --- !u!114 &198210151227739607
 MonoBehaviour:
@@ -320,11 +320,11 @@ MonoBehaviour:
   - {fileID: 6141159048102124698, guid: f0cde4a32d9633a499af59bd7d83eff6, type: 3}
   childObject: {fileID: 3913060500781819190}
   firePoint: {fileID: 9059337661958676790}
-  fireAngle: 30
-  bulletFireInterval: 1
+  fireAngle: 10
+  bulletFireInterval: 0.1
   laserFireInterval: 2
   missileFireInterval: 3
-  heart: 35
+  heart: 15
   hostAlien: {fileID: 0}
 --- !u!114 &3827990169557254773
 MonoBehaviour:
@@ -503,7 +503,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000047683716, y: 0}
+  m_Offset: {x: 0, y: 4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -514,7 +514,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.228326, y: 15}
+  m_Size: {x: 5, y: 7}
   m_EdgeRadius: 0
 --- !u!114 &2055160390650656791
 MonoBehaviour:

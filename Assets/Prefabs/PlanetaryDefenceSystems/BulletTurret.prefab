@@ -104,7 +104,7 @@ MonoBehaviour:
   speed: 20
   source: {fileID: 0}
   owner: {fileID: 0}
-  damage: 5
+  damage: 1
 --- !u!61 &153440963179838866
 BoxCollider2D:
   m_ObjectHideFlags: 0

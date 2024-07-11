@@ -101,9 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 2000
-  TimeLimit: 3
+  TimeLimit: 2
   characterOwner: {fileID: 0}
-  damage: 30
+  damage: 5
 --- !u!58 &2547382048724601065
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -151,4 +151,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec2703e48164144fa9577d5a71502b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxPrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc, type: 3}

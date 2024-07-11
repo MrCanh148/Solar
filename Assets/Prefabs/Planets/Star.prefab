@@ -707,7 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 5
-  generalityType: 0
+  generalityType: 2
   rb: {fileID: 944496152205965675}
   tf: {fileID: 4894543874885279265}
   circleCollider2D: {fileID: 5836522971000489433}

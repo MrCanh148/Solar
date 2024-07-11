@@ -200,6 +200,7 @@ public class Character : MonoBehaviour
                     MergeCharacter(this, character);
                     Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
                     velocity = new Vector2(velocityS.x, velocityS.y);
+                    SpawnPlanets.instance.ActiveCharacter(character, character.characterType);
                 }
             }
             else

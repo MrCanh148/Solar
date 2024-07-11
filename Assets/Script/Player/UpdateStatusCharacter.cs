@@ -10,7 +10,7 @@ public class UpdateStatusCharacter : MonoBehaviour
 
     private void Start()
     {
-        EvolutionCharacter(owner);
+        EvolutionCharacter();
         requiredMass = SpawnPlanets.instance.GetRequiredMass(owner.characterType);
         currentGenerateType = (int)owner.generalityType;
     }
@@ -21,8 +21,29 @@ public class UpdateStatusCharacter : MonoBehaviour
         OnChangeGenerateType((int)owner.generalityType);
     }
 
-    public void UpdateInfoCharacter(Character character)
+    public void UpdateInfoCharacter()
     {
+        if (owner.characterType == CharacterType.Meteoroid)
+        {
+            if (owner.rb.mass < requiredMass)
+            {
+                if (!this.owner.isBasicReSpawn)
+                {
+                    this.owner.SoundAndVfxDie();
+                    this.owner.AllWhenDie();
+                    SpawnPlanets.instance.ActiveCharacter(this.owner, this.owner.characterType + 1);
+                    this.owner.isBasicReSpawn = false;
+
+                }
+                else
+                {
+                    this.owner.AllWhenDie();
+                    this.owner.isBasicReSpawn = false;
+                }
+                return;
+            }
+        }
+
         bool typeChanged;
         do
         {
@@ -30,45 +51,45 @@ public class UpdateStatusCharacter : MonoBehaviour
 
             foreach (var c in SpawnPlanets.instance.CharacterInfos)
             {
-                if (character.characterType == c.characterType - 1) // Tăng CharacterType
+                if (owner.characterType == c.characterType - 1) // Tăng CharacterType
                 {
-                    if (character.rb.mass >= c.requiredMass)
+                    if (owner.rb.mass >= c.requiredMass)
                     {
-                        character.characterType = c.characterType;
-                        character.spriteRenderer.sprite = c.sprite;
+                        owner.characterType = c.characterType;
+                        owner.spriteRenderer.sprite = c.sprite;
 
-                        character.tf.DOScale(c.scale, 0f);
+                        owner.tf.DOScale(c.scale, 0f);
                         typeChanged = true;
 
-                        if (character.isPlayer && GameManager.instance.IsGameMode(GameMode.Normal))
+                        if (owner.isPlayer && GameManager.instance.IsGameMode(GameMode.Normal))
                         {
-                            SpawnPlanets.instance.AdjustSpawnRates(character.characterType);
+                            SpawnPlanets.instance.AdjustSpawnRates(owner.characterType);
                             SpawnPlanets.instance.UpdateDistanceSpawn();
                         }
                         break;
                     }
                 }
 
-                if (character.characterType == c.characterType + 1) // Giảm CharacterType
+                if (owner.characterType == c.characterType + 1) // Giảm CharacterType
                 {
-                    if (character.rb.mass < requiredMass)
+                    if (owner.rb.mass < requiredMass)
                     {
-                        character.characterType = c.characterType;
-                        character.spriteRenderer.sprite = c.sprite;
+                        owner.characterType = c.characterType;
+                        owner.spriteRenderer.sprite = c.sprite;
 
-                        character.tf.DOScale(c.scale, 0f);
+                        owner.tf.DOScale(c.scale, 0f);
                         typeChanged = true;
 
-                        if (character.isPlayer)
+                        if (owner.isPlayer)
                         {
                             if (GameManager.instance.IsGameMode(GameMode.Normal))
                             {
                                 SpawnPlanets.instance.UpdateDistanceSpawn();
-                                SpawnPlanets.instance.AdjustSpawnRates(character.characterType);
+                                SpawnPlanets.instance.AdjustSpawnRates(owner.characterType);
                             }
                             else if (GameManager.instance.IsGameMode(GameMode.Survival))
                             {
-                                SpawnPlanets.instance.AdjustSpawnRates(character.characterType);
+                                SpawnPlanets.instance.AdjustSpawnRates(owner.characterType);
                                 GameManager.instance.ChangeGameState(GameState.GameOver);
                             }
 
@@ -77,7 +98,7 @@ public class UpdateStatusCharacter : MonoBehaviour
                     }
                 }
 
-                if (character.characterType == c.characterType)
+                if (owner.characterType == c.characterType)
                 {
                     requiredMass = c.requiredMass;
                 }
@@ -87,23 +108,23 @@ public class UpdateStatusCharacter : MonoBehaviour
     }
 
 
-    public void EvolutionCharacter(Character character)
+    public void EvolutionCharacter()
     {
-        if (character.characterType == CharacterType.Asteroid || character.characterType == CharacterType.Meteoroid)
+        if (owner.characterType == CharacterType.Asteroid || owner.characterType == CharacterType.Meteoroid)
         {
-            character.generalityType = GeneralityType.Asteroid;
+            owner.generalityType = GeneralityType.Asteroid;
         }
-        else if (character.characterType == CharacterType.Planet || character.characterType == CharacterType.LifePlanet || character.characterType == CharacterType.GasGiant)
+        else if (owner.characterType == CharacterType.Planet || owner.characterType == CharacterType.LifePlanet || owner.characterType == CharacterType.GasGiant)
         {
-            character.generalityType = GeneralityType.Planet;
+            owner.generalityType = GeneralityType.Planet;
         }
-        else if (character.characterType == CharacterType.Star || character.characterType == CharacterType.NeutronStar)
+        else if (owner.characterType == CharacterType.Star || owner.characterType == CharacterType.NeutronStar)
         {
-            character.generalityType = GeneralityType.Star;
+            owner.generalityType = GeneralityType.Star;
         }
-        else if (character.characterType == CharacterType.BlackHole || character.characterType == CharacterType.BigBang)
+        else if (owner.characterType == CharacterType.BlackHole || owner.characterType == CharacterType.BigBang)
         {
-            character.generalityType = GeneralityType.BlackHole;
+            owner.generalityType = GeneralityType.BlackHole;
         }
     }
 
@@ -111,8 +132,8 @@ public class UpdateStatusCharacter : MonoBehaviour
     {
         if (currentMass != newMass)
         {
-            UpdateInfoCharacter(owner);
-            EvolutionCharacter(owner);
+            UpdateInfoCharacter();
+            EvolutionCharacter();
             if (owner.isPlayer)
                 LogicUIPlayer.Instance.UpdateInfo();
         }

@@ -192,21 +192,8 @@ public class Character : MonoBehaviour
                         velocity = new Vector2(velocityS.x, velocityS.y);
                     }
                 }
-                return;
             }
-
-            if (characterType < character.characterType)
-            {
-                if (this.isPlayer)
-                    ReSpawnPlayer.Instance.ResPlayer();
-                else
-                {
-                    MergeCharacter(character, this);
-                    Vector2 velocityS = (character.rb.mass * character.velocity + rb.mass * velocity) / (rb.mass + character.rb.mass);
-                    velocity = new Vector2(velocityS.x, velocityS.y);
-                }
-                return;
-            }
+            return;
         }
 
         //========================================================== logic BlackHole
@@ -234,27 +221,16 @@ public class Character : MonoBehaviour
         }
 
         //================================================================== other logic
-        if (characterType != character.characterType || characterType == character.characterType)
+        if (generalityType != GeneralityType.BlackHole)
         {
-            if (generalityType == GeneralityType.Asteroid)
-            {
-                character.rb.mass -= (int)rb.mass;
-                SoundAndVfxDie();
-                SpawnPlanets.instance.ActiveCharacter(this, characterType);
-                AllWhenDie();
-            }
-
-            else
-            {
-                VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
-                AudioManager.instance.PlaySFX("Hit");
-                character.rb.mass -= SpawnPlanets.instance.GetRequiredMass(characterType + 1) / 10;
-            }
-
+            LogicMassDamage.instance.OnDamage(character, this);
+            VfxManager.instance.PlanetHitVfx(contactPoint, transform.rotation);
+            AudioManager.instance.PlaySFX("Hit");
             Vector2 velocity = (2 * rb.mass * mainVelocity + (character.rb.mass - rb.mass) * character.mainVelocity) / (rb.mass + character.rb.mass);
 
             character.velocity = new Vector2(velocity.x, velocity.y);
             character.ResetExternalVelocity();
+
         }
     }
 

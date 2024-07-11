@@ -9,10 +9,12 @@ public class GroupPlanet : MonoBehaviour
 
     public Character masterStar;
     CharacterType masterStarType;
+    Vector3 masterStarPos;
 
     private void Start()
     {
         masterStarType = masterStar.characterType;
+        masterStarPos = masterStar.tf.localPosition;
         characterTypes.Clear();
         StartPositions.Clear();
         foreach (Character c in characterChilds)
@@ -45,7 +47,7 @@ public class GroupPlanet : MonoBehaviour
             else
                 c.rb.mass = SpawnPlanets.instance.GetRequiredMass(characterTypes[i]) + (SpawnPlanets.instance.GetRequiredMass(characterTypes[i] + 1) - SpawnPlanets.instance.GetRequiredMass(characterTypes[i])) / 2;
             c.gameObject.SetActive(true);
-
+            c.tf.localPosition = StartPositions[i];
         }
 
         if (masterStar.characterType != masterStarType)
@@ -58,6 +60,7 @@ public class GroupPlanet : MonoBehaviour
         }
         masterStar.rb.mass = SpawnPlanets.instance.GetRequiredMass(masterStarType) + (SpawnPlanets.instance.GetRequiredMass(masterStarType + 1) - SpawnPlanets.instance.GetRequiredMass(masterStarType)) / 2;
         masterStar.gameObject.SetActive(true);
+        masterStar.tf.localPosition = masterStarPos;
     }
 
     public float RandomSpinSpeed(float n)

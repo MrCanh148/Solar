@@ -23,6 +23,18 @@ public class UpdateStatusCharacter : MonoBehaviour
 
     public void UpdateInfoCharacter()
     {
+        if (owner.generalityType == GeneralityType.Asteroid)
+        {
+            if (owner.rb.mass < 1f)
+            {
+                owner.SoundAndVfxDie();
+                owner.AllWhenDie();
+                SpawnPlanets.instance.ActiveCharacter(owner, owner.characterType + 1);
+                owner.isBasicReSpawn = false;
+                VfxManager.instance.PlanetDestroyVfx(owner.tf.position, owner.tf.rotation);
+            }
+        }
+
         bool typeChanged;
         do
         {
@@ -128,6 +140,7 @@ public class UpdateStatusCharacter : MonoBehaviour
             if (!owner.isBasicReSpawn)
             {
                 owner.SoundAndVfxDie();
+                VfxManager.instance.PlanetDestroyVfx(owner.tf.position, owner.tf.rotation);
                 owner.AllWhenDie();
                 SpawnPlanets.instance.ActiveCharacter(owner, owner.characterType + 1);
                 owner.isBasicReSpawn = false;

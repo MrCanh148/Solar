@@ -147,8 +147,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.rb.mass = GetRequiredMass(type) + (GetRequiredMass(type + 1) - GetRequiredMass(type)) / 2;
 
         character.isBasicReSpawn = true;
-  
-        //character.tf.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
+        character.tf.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
     }
 
     public void ActiveCharacter2(Character character)

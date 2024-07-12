@@ -97,12 +97,12 @@ public class LogicUIPlayer : MonoBehaviour
 
     public void SetTextRing1(int intOrbit, int maxOrbit)
     {
-        ringText1.text = "1st ring " + intOrbit + "/" + maxOrbit;
+        ringText1.text = intOrbit + "/" + maxOrbit;
     }
 
     public void SetTextRing2(int intOrbit, int maxOrbit)
     {
-        ringText2.text = "2nd ring " + intOrbit + "/" + maxOrbit;
+        ringText2.text = intOrbit + "/" + maxOrbit;
     }
 
     // animation

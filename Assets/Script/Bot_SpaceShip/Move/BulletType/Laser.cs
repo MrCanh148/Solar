@@ -63,7 +63,7 @@ public class Laser : MonoBehaviour
                                 else
                                 {
                                     targetCharacter.rb.mass -= damage;
-                                    if (targetCharacter.rb.mass < 1 || (targetCharacter.characterType == CharacterType.Planet && targetCharacter.rb.mass < 20) || (targetCharacter.characterType == CharacterType.Star && targetCharacter.rb.mass < 180))
+                                    /*if (targetCharacter.rb.mass < 1 || (targetCharacter.characterType == CharacterType.Planet && targetCharacter.rb.mass < 20) || (targetCharacter.characterType == CharacterType.Star && targetCharacter.rb.mass < 180))
                                     {
                                         if (hit.collider.gameObject.CompareTag(Constant.TAG_Player))
                                             ReSpawnPlayer.Instance.ResPlayer();
@@ -80,7 +80,7 @@ public class Laser : MonoBehaviour
                                             else
                                                 SpawnPlanets.instance.ActiveCharacter2(targetCharacter);
                                         }
-                                    }
+                                    }*/
                                 }
                             }
                         }

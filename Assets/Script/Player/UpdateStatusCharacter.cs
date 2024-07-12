@@ -82,6 +82,7 @@ public class UpdateStatusCharacter : MonoBehaviour
                             {
                                 SpawnPlanets.instance.AdjustSpawnRates(owner.characterType);
                                 GameManager.instance.ChangeGameState(GameState.GameOver);
+
                             }
 
                         }
@@ -93,6 +94,7 @@ public class UpdateStatusCharacter : MonoBehaviour
                 {
                     requiredMass = c.requiredMass;
                     owner.tf.DOScale(c.scale, 0f);
+                    SpawnPlanets.instance.UpdateDistanceSpawn();
                 }
             }
         } while (typeChanged); // Tiếp tục vòng lặp nếu loại đã thay đổi

@@ -16,7 +16,7 @@ MonoBehaviour:
   deceleration: 0.8
   minimumMergeForce: 2
   coefficientActiveGameObject: 3
-  coefficientAttractive: 1
+  coefficientAttractive: 2.5
   timeToCapture: 0
   coefficientRadiusPlanet: 3
   coefficientRadiusStar: 4.5

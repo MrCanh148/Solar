@@ -204,14 +204,7 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
 
     public float GetScalePlanet(CharacterType characterType)
     {
-        float scale;
-        if (characterType == CharacterType.Asteroid)
-        {
-            scale = 0.06f;
-        }
-        else
-            scale = CharacterInfos[(int)characterType].scale.x;
-
+        float scale = CharacterInfos[(int)characterType].scale.x;
         return scale;
     }
 

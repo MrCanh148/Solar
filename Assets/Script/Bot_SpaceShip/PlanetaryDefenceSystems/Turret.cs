@@ -4,29 +4,32 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    public ShootTarget target1;
+    [HideInInspector] public ShootTarget target1;
     public List<BulletTurret> bullets;
     [SerializeField] Transform shotPoint;
     [SerializeField] BulletTurret bulletPrefab;
     public float timeColdown = 1;
-    public Character OwnerCharacter;
+    [HideInInspector] public Character OwnerCharacter;
 
     [SerializeField] private GameObject GunMiniCam;
     public Transform gun;
     public Transform baseGun;
     Vector3 correctPos;
-    float time = 0;
+    float timeShoot;
 
 
-    private void Start()
+    private void OnEnable()
     {
-        target1 = null;
+        timeShoot = 0;
         correctPos = gun.up;
     }
 
     private void Update()
     {
-        time += Time.deltaTime;
+        if (timeShoot > 0)
+        {
+            timeShoot -= Time.deltaTime;
+        }
         if (target1 != null)
         {
             Vector3 directionGun = (target1.transform.position - baseGun.position).normalized;
@@ -43,6 +46,9 @@ public class Turret : MonoBehaviour
                 DOTween.To(() => GunMiniCam.transform.up, x => GunMiniCam.transform.up = x, correctPos, 0.5f);
         }
     }
+
+
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -61,10 +67,10 @@ public class Turret : MonoBehaviour
             }
         }
 
-        if (target1 != null && time >= timeColdown && target1.gameObject.activeSelf)
+        if (target1 != null && timeShoot >= timeColdown && target1.gameObject.activeSelf)
         {
             Shot(target1);
-            time = 0;
+            timeShoot = 0;
         }
 
     }

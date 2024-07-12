@@ -18,6 +18,7 @@ public class GameManager : FastSingleton<GameManager>
 {
     public Status status;
     public AmountPlanet AmountPlanet;
+    public DPSParameters DPSParameters;
 
     public GameState gameCurrentState;
     public GameMode currentGameMode;
@@ -32,7 +33,7 @@ public class GameManager : FastSingleton<GameManager>
             //UIGameOver.SetActive(true);
             player.canWASD = false;
             player.ResetVelocity();
-            player.spriteRenderer.enabled = false; 
+            player.spriteRenderer.enabled = false;
         }
         gameCurrentState = gameState;
     }

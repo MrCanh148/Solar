@@ -5,6 +5,8 @@ public class PlanetaryDefenceSystems : MonoBehaviour
 {
     [SerializeField] Character owner;
     [SerializeField] List<Turret> turrets;
+    [SerializeField] AntiOrbitalCannon AOC;
+    [SerializeField] AntiOrbitalMissile AOM;
 
     [Header("AOM")]
     [SerializeField] MissileDef missileDefPrefab;
@@ -12,7 +14,7 @@ public class PlanetaryDefenceSystems : MonoBehaviour
     float timeCoolDownMissile;
     int quantityMissile;
     public List<MissileDef> missiles;
-    bool isMissile;
+    bool isAOM;
     GameObject targetMissile;
 
     [Header("AOC")]
@@ -25,18 +27,16 @@ public class PlanetaryDefenceSystems : MonoBehaviour
     int currentKill;
     void Start()
     {
-
         OnInit();
     }
 
     public void OnInit()
     {
         currentKill = -1;
-
         //Missile
         timeCoolDownMissile = 0;
         quantityMissile = 1;
-        isMissile = false;
+        isAOM = false;
         for (int i = 0; i < quantityMissile; i++)
         {
             MissileDef missile = Instantiate(missileDefPrefab, firePoint.position, firePoint.rotation);
@@ -60,7 +60,7 @@ public class PlanetaryDefenceSystems : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isMissile)
+        if (isAOM)
         {
             timeCoolDownMissile += Time.deltaTime;
 
@@ -80,51 +80,62 @@ public class PlanetaryDefenceSystems : MonoBehaviour
         {
             if (owner.EvolutionDone)
             {
-                if (newKill == 0)
+                if (newKill < 0)
+                {
+                    UpdateQuantityTurret(0);
+                    AOM.gameObject.SetActive(false);
+                    AOC.gameObject.SetActive(false);
+                }
+                else if (newKill < 6)
                 {
                     UpdateQuantityTurret(1);
-                    isMissile = false;
+                    AOM.gameObject.SetActive(false);
+                    AOC.gameObject.SetActive(false);
                 }
-                else if (newKill == 6)
+                else if (newKill < 12)
                 {
                     UpdateQuantityTurret(2);
+                    AOM.gameObject.SetActive(false);
+                    AOC.gameObject.SetActive(false);
                 }
-                else if (newKill == 12)
+                else if (newKill < 24)
                 {
                     UpdateQuantityTurret(2);
-                    isMissile = true;
+                    AOM.gameObject.SetActive(true);
+                    AOC.gameObject.SetActive(false);
                 }
-                else if (newKill == 24)
+                else if (newKill < 36)
                 {
                     UpdateQuantityTurret(3);
+                    AOM.gameObject.SetActive(true);
+                    AOC.gameObject.SetActive(false);
                 }
-                else if (newKill == 36)
+                else if (newKill >= 36)
                 {
                     UpdateQuantityTurret(4);
-                    isAOC = true;
+                    AOM.gameObject.SetActive(true);
+                    AOC.gameObject.SetActive(true);
                 }
-                currentKill = newKill;
             }
             else
             {
                 UpdateQuantityTurret(0);
+                AOM.gameObject.SetActive(false);
+                AOC.gameObject.SetActive(false);
 
             }
-
+            currentKill = newKill;
         }
-
-
     }
-
 
     public void UpdateQuantityTurret(int quantity)
     {
         for (int i = 0; i < turrets.Count; i++)
         {
+            turrets[i].OwnerCharacter = owner;
             if (i < quantity)
             {
                 turrets[i].gameObject.SetActive(true);
-                turrets[i].OwnerCharacter = owner;
             }
             else
             {
@@ -171,7 +182,7 @@ public class PlanetaryDefenceSystems : MonoBehaviour
                     timeAttackAOC = 0;
                     targetAOC = shootTarget.gameObject;
                     AvticeAOC(targetAOC);
-                    antiOrbitalCannon.VFXPlay();
+                    //antiOrbitalCannon.VFXPlay();
                     if (timeAttackAOC > 0.5f)
                     {
                         shootTarget.heart -= damageAOC;
@@ -202,7 +213,7 @@ public class PlanetaryDefenceSystems : MonoBehaviour
             {
                 targetAOC = null;
                 AvticeAOC(targetAOC);
-                antiOrbitalCannon.VFXStop();
+                //antiOrbitalCannon.VFXStop();
             }
         }
 

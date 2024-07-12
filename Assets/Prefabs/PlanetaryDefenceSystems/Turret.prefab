@@ -263,8 +263,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8841590897708765207}
   - component: {fileID: 2338517041077990833}
-  - component: {fileID: 5768766518021662101}
   - component: {fileID: 5434174209416720765}
+  - component: {fileID: 5768766518021662101}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -334,27 +334,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.4785848, y: 1.963768}
   m_EdgeRadius: 0
---- !u!114 &5768766518021662101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7978237678409566544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017e562fd13434e4f82ac0dad19619e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target1: {fileID: 0}
-  bullets: []
-  shotPoint: {fileID: 5359956625661673822}
-  bulletPrefab: {fileID: 2417672213939949578, guid: ff892a94a309c5a40a82d347398cf802, type: 3}
-  timeColdown: 1
-  OwnerCharacter: {fileID: 0}
-  GunMiniCam: {fileID: 0}
-  gun: {fileID: 6988116917484233199}
-  baseGun: {fileID: 2657179904939446955}
 --- !u!50 &5434174209416720765
 Rigidbody2D:
   serializedVersion: 4
@@ -382,3 +361,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5768766518021662101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978237678409566544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017e562fd13434e4f82ac0dad19619e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target1: {fileID: 0}
+  bullets: []
+  shotPoint: {fileID: 5359956625661673822}
+  bulletPrefab: {fileID: 2417672213939949578, guid: ff892a94a309c5a40a82d347398cf802, type: 3}
+  timeColdown: 1
+  OwnerCharacter: {fileID: 0}
+  GunMiniCam: {fileID: 0}
+  gun: {fileID: 6988116917484233199}
+  baseGun: {fileID: 2657179904939446955}

@@ -6,15 +6,15 @@ public class AntiOrbitalCannon : MonoBehaviour
     public GameObject laserOrigin; // GameObject A, nguồn phát laser
     public GameObject targetObject; // GameObject B, đích nhắm  
     public LineRenderer laserLineRenderer;
-    public Character OwnerCharacter;
-    [SerializeField] public GameObject startVFX;
-    [SerializeField] public GameObject endVFX;
+    [HideInInspector] public Character OwnerCharacter;
+    //[SerializeField] public GameObject startVFX;
+    //[SerializeField] public GameObject endVFX;
     List<ParticleSystem> listVFX = new List<ParticleSystem>();
 
     private void Start()
     {
-        startVFX.SetActive(false);
-        endVFX.SetActive(false);
+        /*startVFX.SetActive(false);
+        endVFX.SetActive(false);*/
     }
 
     private void Update()
@@ -31,8 +31,8 @@ public class AntiOrbitalCannon : MonoBehaviour
             laserLineRenderer.SetPosition(1, targetObject.transform.position);
             Vector2 direction = (Vector2)(targetObject.transform.position - laserOrigin.transform.position);
             RaycastHit2D[] hits = Physics2D.RaycastAll(laserOrigin.transform.position, direction.normalized, direction.magnitude);
-            startVFX.transform.position = laserOrigin.transform.position;
-            endVFX.transform.position = targetObject.transform.position;
+            /*startVFX.transform.position = laserOrigin.transform.position;
+            endVFX.transform.position = targetObject.transform.position;*/
             foreach (RaycastHit2D h in hits)
             {
                 if (h.collider.CompareTag(Constant.TAG_AirSpace1))
@@ -42,7 +42,7 @@ public class AntiOrbitalCannon : MonoBehaviour
                         if (shootTarget.hostAlien != OwnerCharacter)
                         {
                             laserLineRenderer.SetPosition(1, h.point);
-                            endVFX.transform.position = h.point;
+                            //endVFX.transform.position = h.point;
                         }
                     }
                 }
@@ -55,7 +55,7 @@ public class AntiOrbitalCannon : MonoBehaviour
             laserLineRenderer.enabled = false;
     }
 
-    public void FillListVFX()
+    /*public void FillListVFX()
     {
         for (int i = 0; i < startVFX.transform.childCount; i++)
         {
@@ -86,5 +86,5 @@ public class AntiOrbitalCannon : MonoBehaviour
     {
         startVFX.SetActive(false);
         endVFX.SetActive(false);
-    }
+    }*/
 }

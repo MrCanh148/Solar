@@ -69,8 +69,8 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
 
     public Vector3 SpawnerCharacter()
     {
-        float xPos = Random.Range(FarFromPlayerX * 1.5f, GameManager.instance.status.coefficientActiveGameObject * FarFromPlayerX);
-        float yPos = Random.Range(FarFromPlayerY * 1.5f, GameManager.instance.status.coefficientActiveGameObject * FarFromPlayerY);
+        float xPos = Random.Range(FarFromPlayerX * 1.5f, (GameManager.instance.status.coefficientActiveGameObject - 1.5f) * FarFromPlayerX);
+        float yPos = Random.Range(FarFromPlayerY * 1.5f, (GameManager.instance.status.coefficientActiveGameObject - 1.5f) * FarFromPlayerY);
         xPos = RamdomValue(xPos);
         yPos = RamdomValue(yPos);
         return new Vector2(player.tf.position.x + xPos, player.tf.position.y + yPos);
@@ -147,7 +147,8 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
             character.rb.mass = GetRequiredMass(type) + (GetRequiredMass(type + 1) - GetRequiredMass(type)) / 2;
 
         character.isBasicReSpawn = true;
-        character.tf.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
+
+        //character.tf.localScale = new Vector3(GetScalePlanet(type), GetScalePlanet(type), GetScalePlanet(type));
     }
 
     public void ActiveCharacter2(Character character)
@@ -204,7 +205,8 @@ public class SpawnPlanets : FastSingleton<SpawnPlanets>
 
     public float GetScalePlanet(CharacterType characterType)
     {
-        float scale = CharacterInfos[(int)characterType].scale.x;
+        float scale;
+        scale = CharacterInfos[(int)characterType].scale.x;
         return scale;
     }
 

@@ -9,6 +9,10 @@ public class CameraCollision : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
+
+    }
+    private void Update()
+    {
         float boxY = _camera.orthographicSize * GameManager.instance.status.coefficientActiveGameObject;
         float boxX = boxY * (float)_camera.pixelWidth / _camera.pixelHeight;
         float distance = boxX > boxY ? boxX : boxY;
@@ -27,7 +31,4 @@ public class CameraCollision : MonoBehaviour
             cameraWalls[3].transform.localScale = new Vector2(2f, distance * 2);   // Right
         }
     }
-
-
-
 }
